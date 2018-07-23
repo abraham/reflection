@@ -30,7 +30,7 @@ import { Reflection as Reflect } from '@abraham/reflection';
 Reflect.defineMetadata(metadataKey, metadataValue, target);
 ```
 
-If a globally available version you can use the following.
+If you want a globally available version.
 
 ```ts
 import '@abraham/reflection/dist/reflect';
@@ -41,7 +41,7 @@ Reflect.defineMetadata(metadataKey, metadataValue, target);
 API
 ----
 
-Reflection does not cover the complete API surface of reflect-metadata. Currently the following are available.
+Reflection does not currently cover the complete API surface of reflect-metadata. The following methods are available:
 
 ```ts
 Reflect.decorate(...);
