@@ -1,0 +1,63 @@
+{
+  "name": "@abraham/reflection",
+  "version": "0.1.0",
+  "description": "Lightweight ES Module implementation of reflect-metadata",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abraham/reflection.git"
+  },
+  "keywords": [
+    "typescript",
+    "reflect",
+    "reflect-metadata",
+    "metadata",
+    "lightweight",
+    "micro",
+    "library"
+  ],
+  "author": "Abraham Williams <4braham@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abraham/reflection/issues"
+  },
+  "homepage": "https://github.com/abraham/reflection#readme",
+  "devDependencies": {
+    "@types/jest": "23.3.0",
+    "jest": "23.4.1",
+    "rimraf": "2.6.2",
+    "ts-jest": "23.0.1",
+    "typescript": "2.9.2"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ]
+  }
+}
