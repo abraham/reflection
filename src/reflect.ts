@@ -1,4 +1,4 @@
-import { decorate, defineMetadata, getMetadata, hasOwnMetadata, metadata } from './methods';
+import { Reflection } from './index';
 
 // TODO: Is there a better way to do this?
 declare global {
@@ -7,8 +7,4 @@ declare global {
   }
 }
 
-window.Reflect.decorate = decorate;
-window.Reflect.defineMetadata = defineMetadata;
-window.Reflect.getMetadata = getMetadata;
-window.Reflect.hasOwnMetadata = hasOwnMetadata;
-window.Reflect.metadata = metadata;
+window.Reflect = Reflection;
