@@ -2,6 +2,7 @@ export const Reflection = Object.assign({}, Reflect, {
   decorate,
   defineMetadata,
   getMetadata,
+  getOwnMetadata,
   hasOwnMetadata,
   metadata,
 });
@@ -40,6 +41,10 @@ export function metadata(metadataKey: MetadataKey, metadataValue: MetadataValue)
 
 export function getMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
   return ordinaryGetMetadata(metadataKey, target, propertyKey);
+}
+
+export function getOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
+  return ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
 }
 
 export function hasOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
@@ -87,6 +92,7 @@ function ordinaryHasOwnMetadata(metadataKey: MetadataKey, target: Target, proper
 }
 
 function ordinaryGetOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): Function | undefined {
+  if (target === undefined) throw new TypeError();
   const metadataMap = getMetadataMap(target, propertyKey);
   return metadataMap && metadataMap.get(metadataKey);
 }
