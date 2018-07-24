@@ -1,4 +1,4 @@
-export const Reflection = Object.assign({}, Reflect, {
+export const Reflection = Object.assign(Reflect, {
   decorate,
   defineMetadata,
   getMetadata,
