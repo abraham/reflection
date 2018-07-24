@@ -10,6 +10,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
+    "start": "jest --watch",
     "test": "jest"
   },
   "repository": {
