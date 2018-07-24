@@ -48,7 +48,7 @@ export function getOwnMetadata(metadataKey: MetadataKey, target: Target, propert
 }
 
 export function hasOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
-  return ordinaryHasOwnMetadata(metadataKey, target, propertyKey);
+  return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
 }
 
 function decorateConstructor(decorators: ClassDecorator[], target: Function): Function {
@@ -63,10 +63,7 @@ function decorateConstructor(decorators: ClassDecorator[], target: Function): Fu
 
 function decorateProperty(decorators: MemberDecorator[], target: Target, propertyKey: PropertyKey, descriptor?: PropertyDescriptor): PropertyDescriptor | undefined {
   decorators.reverse().forEach((decorator: MemberDecorator) => {
-    const decorated = decorator(target, propertyKey, descriptor);
-    if (decorated) {
-      descriptor = decorated;
-    }
+    descriptor = decorator(target, propertyKey, descriptor) || descriptor;
   });
   return descriptor;
 }
@@ -79,16 +76,11 @@ function ordinaryDefineOwnMetadata(metadataKey: MetadataKey, metadataValue: Meta
 }
 
 function ordinaryGetMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): Function | undefined {
-  return ordinaryHasOwnMetadata(metadataKey, target, propertyKey)
+  return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey)
     ? ordinaryGetOwnMetadata(metadataKey, target, propertyKey)
     : Object.getPrototypeOf(target)
     ? ordinaryGetMetadata(metadataKey, Object.getPrototypeOf(target), propertyKey)
     : undefined;
-}
-
-function ordinaryHasOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
-  const metadataMap = getMetadataMap(target, propertyKey);
-  return !!metadataMap && !!metadataMap.has(metadataKey);
 }
 
 function ordinaryGetOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): Function | undefined {
