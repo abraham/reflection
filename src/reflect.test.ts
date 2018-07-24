@@ -19,3 +19,7 @@ test('metadata', () => {
 test('hasOwnMetadata', () => {
   expect(Reflect.hasOwnMetadata).toBeDefined();
 });
+
+test('getOwnMetadata', () => {
+  expect(Reflect.getOwnMetadata).toBeDefined();
+});

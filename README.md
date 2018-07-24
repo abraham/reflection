@@ -37,7 +37,6 @@ import '@abraham/reflection/dist/reflect';
 Reflect.defineMetadata(metadataKey, metadataValue, target);
 ```
 
-
 API
 ----
 
@@ -47,6 +46,7 @@ Reflection does not currently cover the complete API surface of reflect-metadata
 Reflect.decorate(...);
 Reflect.defineMetadata(...);
 Reflect.getMetadata(...);
+Reflect.getOwnMetadata(...);
 Reflect.hasOwnMetadata(...);
 Reflect.metadata(...);
 ```
