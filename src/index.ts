@@ -71,7 +71,7 @@ function decorateProperty(decorators: MemberDecorator[], target: Target, propert
 function ordinaryDefineOwnMetadata(metadataKey: MetadataKey, metadataValue: MetadataValue, target: Target, propertyKey?: PropertyKey): void {
   if (propertyKey && !['string', 'symbol'].includes(typeof propertyKey)) throw new TypeError();
 
-  createMetadataMap(target, propertyKey)
+  (getMetadataMap(target, propertyKey) || createMetadataMap(target, propertyKey))
     .set(metadataKey, metadataValue);
 }
 
