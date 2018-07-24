@@ -26,14 +26,7 @@ Usage
 -----
 
 ```ts
-import { Reflection as Reflect } from '@abraham/reflection';
-Reflect.defineMetadata(metadataKey, metadataValue, target);
-```
-
-If you want a globally available version.
-
-```ts
-import '@abraham/reflection/dist/reflect';
+import '@abraham/reflection';
 Reflect.defineMetadata(metadataKey, metadataValue, target);
 ```
 
