@@ -15,3 +15,11 @@ test('decorate', () => {
 test('metadata', () => {
   expect(Reflect.metadata).toBeDefined();
 });
+
+test('hasOwnMetadata', () => {
+  expect(Reflect.hasOwnMetadata).toBeDefined();
+});
+
+test('getOwnMetadata', () => {
+  expect(Reflect.getOwnMetadata).toBeDefined();
+});
