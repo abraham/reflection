@@ -12,8 +12,12 @@ Why?
 
 The main reason for this library is to provide a much smaller implementation that can be included as a module.
 
-- `reflect-metadata` is 52 K without compression while `reflection` is about 3 K
-- `reflection` can be loaded with `<script type="module" src="..."></script>`
+- ES module
+  - `reflection` can be loaded with `<script type="module" src="..."></script>`
+- Size (uncompressed)
+  - [`reflect-metadata`](https://github.com/rbuckton/reflect-metadata) is ~50K
+  - [`core-js/es7/reflect`](https://github.com/zloirock/core-js) is ~80K
+  - `@abraham/reflection` is ~3K
 
 Install
 ----
