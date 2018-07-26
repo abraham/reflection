@@ -19,6 +19,8 @@ The main reason for this library is to provide a much smaller implementation tha
   - [`core-js/es7/reflect`](https://github.com/zloirock/core-js) is ~80K
   - `@abraham/reflection` is ~3K
 
+Read about how to [drop 20K from your production Angular app](https://bendyworks.com/blog/drop-20k-from-your-production-angular-app) by switching to this.
+
 Install
 ----
 
