@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/abraham/reflection#readme",
   "devDependencies": {
-    "@types/jest": "23.3.2",
+    "@types/jest": "23.3.3",
     "jest": "23.6.0",
     "pkg-ok": "2.2.0",
     "rimraf": "2.6.2",
