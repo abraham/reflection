@@ -32,3 +32,11 @@ test('with target and propery key', () => {
   decorator(target, propertyKey);
   expect(Reflect.hasOwnMetadata(metadataKey, target, propertyKey)).toBeTruthy();
 });
+
+test('with target and multiple properties', () => {
+  const target = {};
+  decorator(target, 'name1');
+  decorator(target, 'name2');
+  expect(Reflect.hasOwnMetadata(metadataKey, target, 'name1')).toBeTruthy();
+  expect(Reflect.hasOwnMetadata(metadataKey, target, 'name2')).toBeTruthy();
+});
