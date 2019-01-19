@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
-    "lint": "tslint --project tsconfig.json",
+    "lint": "tslint src/*",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
     "prepublishOnly": "pkg-ok",
