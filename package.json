@@ -64,7 +64,10 @@
   "renovate": {
     "extends": [
       "config:base"
-    ]
+    ],
+    "devDependencies": {
+      "automerge": true
+    }
   },
   "rollup": {
     "input": "dist/index.js",
