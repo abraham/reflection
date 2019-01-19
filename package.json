@@ -39,7 +39,7 @@
     "jest": "23.6.0",
     "pkg-ok": "2.3.1",
     "rimraf": "2.6.3",
-    "rollup": "1.1.0",
+    "rollup": "1.1.1",
     "ts-jest": "23.1.4",
     "tslint": "5.12.1",
     "typescript": "3.2.4"
