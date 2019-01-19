@@ -2,13 +2,13 @@ import { Reflection as Reflect } from './index';
 
 test('with invalid decorators and target', () => {
   const decorators = undefined;
-  const target = () => {};
+  const target = () => { return; };
   expect(() => Reflect.decorate(decorators, target)).toThrow(TypeError);
 });
 
 test('with no decorators', () => {
   const decorators = [];
-  const target = () => {};
+  const target = () => { return; };
   expect(() => Reflect.decorate(decorators, target)).toThrow(TypeError);
 });
 
@@ -48,7 +48,7 @@ test('executes decorators in reverse order for function', () => {
     () => { order.push(0); },
     () => { order.push(1); },
   ];
-  const target = () => {};
+  const target = () => { return; };
   Reflect.decorate(decorators, target);
   expect(order[0]).toEqual(1);
   expect(order[1]).toEqual(0);
@@ -82,23 +82,23 @@ test('executes decorators in reverse order for property with descriptor', () => 
 });
 
 test('something function', () => {
-  const a = function a() {};
-  const b = function b() {};
+  const a = () => { return; };
+  const b = () => { return; };
   const decorators = [
-    () => {},
+    () => { return; },
     () => a,
     () => b,
   ];
-  const target = () => {};
+  const target = () => { return; };
   const result = Reflect.decorate(decorators, target);
   expect(result).toStrictEqual(a);
 });
 
 test('something property', () => {
-  const a = function a() {};
-  const b = function b() {};
+  const a = () => { return; };
+  const b = () => { return; };
   const decorators = [
-    () => {},
+    () => { return; },
     () => a,
     () => b,
   ];
@@ -109,31 +109,31 @@ test('something property', () => {
 });
 
 test('something property with descriptor', () => {
-  const a = function a() {};
-  const b = function b() {};
+  const a = () => { return; };
+  const b = () => { return; };
   const decorators = [
-    () => {},
+    () => { return; },
     () => a,
     () => b,
   ];
   const target = {};
   const property = 'name';
-  const descriptor = function c() { };
+  const descriptor = function c() { return; };
   const result = Reflect.decorate(decorators, target, property, descriptor);
   expect(result).toStrictEqual(a);
 });
 
 test('decorate correct target for function', () => {
   const sent: Function[] = [];
-  const a = function a() {};
-  const b = function b() {};
+  const a = () => { return; };
+  const b = () => { return; };
   const decorators = [
     (target: Function) => { sent.push(target); },
     (target: Function) => { sent.push(target); },
     (target: Function) => { sent.push(target); return a; },
     (target: Function) => { sent.push(target); return b; },
   ];
-  const target = () => {};
+  const target = () => { return; };
   Reflect.decorate(decorators, target);
   expect(sent[0]).toStrictEqual(target);
   expect(sent[1]).toStrictEqual(b);
@@ -159,10 +159,10 @@ test('decorate correct target for function', () => {
 test('decorate correct target for function', () => {
   const sent: string[] = [];
   const decorators = [
-    (_target: object, name: string) => { sent.push(name); },
-    (_target: object, name: string) => { sent.push(name); },
-    (_target: object, name: string) => { sent.push(name); },
-    (_target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); },
   ];
   const target = {};
   const property = 'name';
@@ -173,7 +173,7 @@ test('decorate correct target for function', () => {
 test('decorate correct target for function', () => {
   const sent: object[] = [];
   const a = {};
-  const b = {}
+  const b = {};
   const decorators = [
     (target: object) => { sent.push(target); },
     (target: object) => { sent.push(target); },
@@ -190,12 +190,12 @@ test('decorate correct target for function', () => {
 test('decorate correct target for function', () => {
   const sent: string[] = [];
   const a = {};
-  const b = {}
+  const b = {};
   const decorators = [
-    (_target: object, name: string) => { sent.push(name); },
-    (_target: object, name: string) => { sent.push(name); },
-    (_target: object, name: string) => { sent.push(name); return a; },
-    (_target: object, name: string) => { sent.push(name); return b; },
+    (target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); },
+    (target: object, name: string) => { sent.push(name); return a; },
+    (target: object, name: string) => { sent.push(name); return b; },
   ];
   const target = {};
   const property = 'name';
@@ -207,12 +207,12 @@ test('decorate correct target for function', () => {
 test('decorate correct target for function', () => {
   const sent: PropertyDescriptor[] = [];
   const a = {};
-  const b = {}
+  const b = {};
   const decorators = [
-    (_target: object, _name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); },
-    (_target: object, _name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); },
-    (_target: object, _name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); return a; },
-    (_target: object, _name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); return b; },
+    (target: object, name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); },
+    (target: object, name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); },
+    (target: object, name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); return a; },
+    (target: object, name: string, descriptor: PropertyDescriptor) => { sent.push(descriptor); return b; },
   ];
   const target = {};
   const property = 'name';
