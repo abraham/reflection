@@ -85,7 +85,9 @@ function ordinaryDefineOwnMetadata(metadataKey: MetadataKey,
                                    metadataValue: MetadataValue,
                                    target: Target,
                                    propertyKey?: PropertyKey): void {
-  if (propertyKey && !['string', 'symbol'].includes(typeof propertyKey)) { throw new TypeError(); }
+  if (propertyKey && !['string', 'symbol'].includes(typeof propertyKey)) {
+    throw new TypeError();
+  }
 
   (getMetadataMap(target, propertyKey) || createMetadataMap(target, propertyKey))
     .set(metadataKey, metadataValue);
@@ -104,7 +106,9 @@ function ordinaryGetMetadata(metadataKey: MetadataKey,
 function ordinaryGetOwnMetadata(metadataKey: MetadataKey,
                                 target: Target,
                                 propertyKey?: PropertyKey): Function | undefined {
-  if (target === undefined) { throw new TypeError(); }
+  if (target === undefined) {
+    throw new TypeError();
+  }
   const metadataMap = getMetadataMap(target, propertyKey);
   return metadataMap && metadataMap.get(metadataKey);
 }
