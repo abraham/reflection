@@ -114,9 +114,9 @@ function getMetadataMap(target: Target, propertyKey?: PropertyKey): Map<Metadata
 }
 
 export function createMetadataMap(target: Target, propertyKey?: PropertyKey): Map<MetadataKey, MetadataValue> {
-  const targetMetadata = new Map<PropertyKey | undefined, Map<MetadataKey, MetadataValue>>();
+  const targetMetadata = Metadata.get(target) || new Map<PropertyKey | undefined, Map<MetadataKey, MetadataValue>>();
   Metadata.set(target, targetMetadata);
-  const metadataMap = new Map<MetadataKey, MetadataValue>();
+  const metadataMap = targetMetadata.get(propertyKey) || (new Map<MetadataKey, MetadataValue>());
   targetMetadata.set(propertyKey, metadataMap);
   return metadataMap;
 }
