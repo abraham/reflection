@@ -5,7 +5,8 @@ const metadataValue = 'value';
 const target = {};
 
 test('with invalid target', () => {
-  expect(() => Reflect.defineMetadata(metadataKey, metadataValue)).toThrow(TypeError);
+  const target = undefined;
+  expect(() => Reflect.defineMetadata(metadataKey, metadataValue, target!)).toThrow(TypeError);
 });
 
 test('with target but no property key', () => {

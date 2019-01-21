@@ -7,7 +7,8 @@ const target = {};
 const propertyKey = 'name';
 
 test('invalid target', () => {
-  expect(() => Reflect.getOwnMetadata(metadataKey)).toThrow(TypeError);
+  const target = undefined;
+  expect(() => Reflect.getOwnMetadata(metadataKey, target!)).toThrow(TypeError);
 });
 
 test('not defined with target', () => {

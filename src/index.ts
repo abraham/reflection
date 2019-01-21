@@ -51,7 +51,7 @@ export function decorate(
 }
 
 export function metadata<MetadataValue>(metadataKey: MetadataKey, metadataValue: MetadataValue) {
-  return function decorator(target: Function, propertyKey?: PropertyKey) {
+  return function decorator(target: Target, propertyKey?: PropertyKey) {
     ordinaryDefineOwnMetadata<MetadataValue>(metadataKey, metadataValue, target, propertyKey);
   };
 }
