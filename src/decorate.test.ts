@@ -81,7 +81,7 @@ test('executes decorators in reverse order for property with descriptor', () => 
   expect(order[1]).toEqual(0);
 });
 
-test('something function', () => {
+test('applies decorators to function', () => {
   const a = () => { return; };
   const b = () => { return; };
   const decorators = [
@@ -94,7 +94,7 @@ test('something function', () => {
   expect(result).toStrictEqual(a);
 });
 
-test('something property', () => {
+test('applies decorators to target property', () => {
   const a = () => { return; };
   const b = () => { return; };
   const decorators = [
@@ -108,7 +108,7 @@ test('something property', () => {
   expect(result).toStrictEqual(a);
 });
 
-test('something property with descriptor', () => {
+test('applies decorators to target property with descriptor', () => {
   const a = () => { return; };
   const b = () => { return; };
   const decorators = [
