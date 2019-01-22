@@ -1,12 +1,3 @@
-export const Reflection = Object.assign(Reflect, {
-  decorate,
-  defineMetadata,
-  getMetadata,
-  getOwnMetadata,
-  hasOwnMetadata,
-  metadata,
-});
-
 export type Decorator = ClassDecorator | MemberDecorator;
 export type MemberDecorator = <T>(
   target: Target,
@@ -144,4 +135,27 @@ function createMetadataMap<MetadataValue>(
   const metadataMap = targetMetadata.get(propertyKey) || (new Map<MetadataKey, MetadataValue>());
   targetMetadata.set(propertyKey, metadataMap);
   return metadataMap;
+}
+
+export const Reflection = {
+  decorate,
+  defineMetadata,
+  getMetadata,
+  getOwnMetadata,
+  hasOwnMetadata,
+  metadata,
+};
+
+// TODO: Is this a good approach?
+(window as any).Reflect = Object.assign({}, Reflect, Reflection);
+
+declare global {
+  namespace Reflect {
+    let decorate: typeof Reflection.decorate;
+    let defineMetadata: typeof Reflection.defineMetadata;
+    let getMetadata: typeof Reflection.getMetadata;
+    let getOwnMetadata: typeof Reflection.getOwnMetadata;
+    let hasOwnMetadata: typeof Reflection.hasOwnMetadata;
+    let metadata: typeof Reflection.metadata;
+  }
 }
