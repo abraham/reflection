@@ -1,12 +1,3 @@
-export const Reflection = Object.assign(Reflect, {
-  decorate,
-  defineMetadata,
-  getMetadata,
-  getOwnMetadata,
-  hasOwnMetadata,
-  metadata,
-});
-
 export type Decorator = ClassDecorator | MemberDecorator;
 export type MemberDecorator = <T>(
   target: Target,
@@ -56,12 +47,12 @@ export function metadata<MetadataValue>(metadataKey: MetadataKey, metadataValue:
   };
 }
 
-export function getMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
-  return ordinaryGetMetadata(metadataKey, target, propertyKey);
+export function getMetadata<MetadataValue>(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
+  return ordinaryGetMetadata<MetadataValue>(metadataKey, target, propertyKey);
 }
 
-export function getOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
-  return ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
+export function getOwnMetadata<MetadataValue>(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey) {
+  return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey);
 }
 
 export function hasOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
@@ -104,13 +95,13 @@ function ordinaryDefineOwnMetadata<MetadataValue>(
     .set(metadataKey, metadataValue);
 }
 
-function ordinaryGetMetadata(
+function ordinaryGetMetadata<MetadataValue>(
   metadataKey: MetadataKey,
   target: Target,
   propertyKey?: PropertyKey,
-): Function | undefined {
-  return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey)
-    ? ordinaryGetOwnMetadata(metadataKey, target, propertyKey)
+): MetadataValue | undefined {
+  return !!ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
+    ? ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     : Object.getPrototypeOf(target)
     ? ordinaryGetMetadata(metadataKey, Object.getPrototypeOf(target), propertyKey)
     : undefined;
@@ -144,4 +135,27 @@ function createMetadataMap<MetadataValue>(
   const metadataMap = targetMetadata.get(propertyKey) || (new Map<MetadataKey, MetadataValue>());
   targetMetadata.set(propertyKey, metadataMap);
   return metadataMap;
+}
+
+export const Reflection = {
+  decorate,
+  defineMetadata,
+  getMetadata,
+  getOwnMetadata,
+  hasOwnMetadata,
+  metadata,
+};
+
+// TODO: Is this a good approach?
+(window as any).Reflect = Object.assign({}, Reflect, Reflection);
+
+declare global {
+  namespace Reflect {
+    let decorate: typeof Reflection.decorate;
+    let defineMetadata: typeof Reflection.defineMetadata;
+    let getMetadata: typeof Reflection.getMetadata;
+    let getOwnMetadata: typeof Reflection.getOwnMetadata;
+    let hasOwnMetadata: typeof Reflection.hasOwnMetadata;
+    let metadata: typeof Reflection.metadata;
+  }
 }
