@@ -38,6 +38,13 @@ import '@abraham/reflection';
 Reflect.defineMetadata(metadataKey, metadataValue, target);
 ```
 
+You can also import `Reflection`:
+
+```ts
+import { Reflection as Reflect } from '@abraham/reflection';
+Reflect.defineMetadata(metadataKey, metadataValue, target);
+```
+
 API
 ----
 
