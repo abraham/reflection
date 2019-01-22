@@ -11,12 +11,12 @@ test('returns function', () => {
 
 test('with invalid target', () => {
   const target = undefined;
-  expect(() => decorator(target, propertyKey)).toThrow(TypeError);
+  expect(() => decorator(target!, propertyKey)).toThrow(TypeError);
 });
 
 test('with invalid property key', () => {
   const target = {};
-  const invalidPropertyKey = {};
+  const invalidPropertyKey: any = {};
   expect(() => decorator(target, invalidPropertyKey)).toThrow(TypeError);
 });
 

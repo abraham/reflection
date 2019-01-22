@@ -6,6 +6,7 @@
   "jsRules": {},
   "rules": {
     "quotemark": [true, "single"],
+    "variable-name": [true, "allow-pascal-case", "allow-leading-underscore"],
     "ban-types": [
       true,
       ["Object", "Avoid using the `Object` type. Did you mean `object`?"],

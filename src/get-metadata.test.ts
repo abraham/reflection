@@ -1,7 +1,8 @@
 import { Reflection as Reflect } from './index';
 
 test('with invalid target', () => {
-  expect(() => Reflect.getMetadata('key')).toThrow(TypeError);
+  const target = undefined;
+  expect(() => Reflect.getMetadata('key', target!)).toThrow(TypeError);
 });
 
 test('when not defined', () => {
