@@ -26,7 +26,8 @@
     "metadata",
     "lightweight",
     "micro",
-    "library"
+    "library",
+    "decorator"
   ],
   "author": "Abraham Williams <4braham@gmail.com>",
   "license": "MIT",
