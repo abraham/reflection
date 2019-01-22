@@ -1,4 +1,4 @@
-import { Reflection as Reflect } from './index';
+import './index';
 
 const prototype = {};
 const metadataKey = 'key';

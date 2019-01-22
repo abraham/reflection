@@ -1,4 +1,4 @@
-import { Reflection as Reflect } from './index';
+import './index';
 
 test('with invalid target', () => {
   const target = undefined;
