@@ -146,8 +146,7 @@ export const Reflection = {
   metadata,
 };
 
-// TODO: Is this a good approach?
-(window as any).Reflect = Object.assign({}, Reflect, Reflection);
+Object.assign(Reflect, Reflection);
 
 declare global {
   namespace Reflect {
