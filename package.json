@@ -42,7 +42,7 @@
     "rimraf": "2.6.3",
     "rollup": "1.2.3",
     "ts-jest": "24.0.0",
-    "tslint": "5.12.1",
+    "tslint": "5.13.0",
     "typescript": "3.3.3333"
   },
   "jest": {
