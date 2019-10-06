@@ -4,7 +4,7 @@ export type MemberDecorator = <T>(
   propertyKey: PropertyKey,
   descriptor?: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T> | void;
-export type MetadataKey = string;
+export type MetadataKey = string | symbol;
 export type PropertyKey = string | symbol;
 export type Target = object | Function;
 
