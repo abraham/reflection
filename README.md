@@ -54,6 +54,7 @@ Reflection does not currently cover the complete API surface of reflect-metadata
 Reflect.decorate(...);
 Reflect.defineMetadata(...);
 Reflect.getMetadata(...);
+Reflect.hasMetadata(...);
 Reflect.getOwnMetadata(...);
 Reflect.hasOwnMetadata(...);
 Reflect.metadata(...);
