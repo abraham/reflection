@@ -59,6 +59,10 @@ export function hasOwnMetadata(metadataKey: MetadataKey, target: Target, propert
   return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
 }
 
+export function hasMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
+  return !!ordinaryGetMetadata(metadataKey, target, propertyKey);
+}
+
 function decorateConstructor(decorators: ClassDecorator[], target: Function): Function {
   decorators.reverse().forEach((decorator: ClassDecorator) => {
     const decorated = decorator(target);
@@ -142,6 +146,7 @@ export const Reflection = {
   defineMetadata,
   getMetadata,
   getOwnMetadata,
+  hasMetadata,
   hasOwnMetadata,
   metadata,
 };
@@ -155,6 +160,7 @@ declare global {
     let getMetadata: typeof Reflection.getMetadata;
     let getOwnMetadata: typeof Reflection.getOwnMetadata;
     let hasOwnMetadata: typeof Reflection.hasOwnMetadata;
+    let hasMetadata: typeof Reflection.hasMetadata;
     let metadata: typeof Reflection.metadata;
   }
 }

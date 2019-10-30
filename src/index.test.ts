@@ -25,6 +25,11 @@ test('hasOwnMetadata', () => {
   expect(Reflect.hasOwnMetadata).toEqual(Reflection.hasOwnMetadata);
 });
 
+test('hasMetadata', () => {
+  expect(Reflect.hasMetadata).toBeDefined();
+  expect(Reflect.hasMetadata).toEqual(Reflection.hasMetadata);
+});
+
 test('getOwnMetadata', () => {
   expect(Reflect.getOwnMetadata).toBeDefined();
   expect(Reflect.getOwnMetadata).toEqual(Reflection.getOwnMetadata);
