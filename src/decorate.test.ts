@@ -34,12 +34,24 @@ test('with property and descriptor and invalid decorators', () => {
   expect(() => Reflect.decorate(decorators, target, property, descriptor)).toThrow(TypeError);
 });
 
-test('with decorators, property, and descriptor and invalid target ', () => {
+test('with decorators, property, and descriptor and invalid target', () => {
   const decorators: PropertyDecorator[] = [];
   const target: any = 1;
   const property = 'name';
   const descriptor = {};
   expect(() => Reflect.decorate(decorators, target, property, descriptor)).toThrow(TypeError);
+});
+
+test('with decorators, undefined property, and descriptor and invalid target', () => {
+  const sent: Function[] = [];
+  const decorators: any = [
+    (target: Function): void => { sent.push(target); },
+  ];
+  const target: any = 1;
+  const property = undefined;
+  const descriptor = {};
+  const result = Reflect.decorate(decorators, target, property, descriptor);
+  expect(result).toBeUndefined();
 });
 
 test('executes decorators in reverse order for function', () => {
