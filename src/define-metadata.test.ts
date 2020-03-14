@@ -9,8 +9,8 @@ import './index';
     const target = {};
 
     test('with invalid target', () => {
-      const target = undefined;
-      expect(() => Reflect.defineMetadata(metadataKey, metadataValue, target!)).toThrow(TypeError);
+      const target: any = undefined;
+      expect(() => Reflect.defineMetadata(metadataKey, metadataValue, target)).toThrow(TypeError);
     });
 
     test('with target but no property key', () => {

@@ -10,8 +10,8 @@ test('returns function', () => {
 });
 
 test('with invalid target', () => {
-  const target = undefined;
-  expect(() => decorator(target!, propertyKey)).toThrow(TypeError);
+  const target: any = undefined;
+  expect(() => decorator(target, propertyKey)).toThrow(TypeError);
 });
 
 test('with invalid property key', () => {
@@ -21,7 +21,7 @@ test('with invalid property key', () => {
 });
 
 test('with target and without property key', () => {
-  const target = () => { return; };
+  const target = (): undefined => { return; };
   decorator(target);
   expect(Reflect.hasOwnMetadata(metadataKey, target)).toBeTruthy();
 });
