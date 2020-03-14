@@ -2,7 +2,7 @@
 [![Build Status](https://img.shields.io/travis/abraham/reflection.svg?style=flat)](https://travis-ci.org/abraham/reflection)
 [![Dependency Status](https://david-dm.org/abraham/reflection.svg?style=flat)](https://david-dm.org/abraham/reflection)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@abraham/reflection.svg?style=flat&colorB=4bc524)](https://bundlephobia.com/result?p=@abraham/reflection)
-
+[![Coverage Status](https://coveralls.io/repos/github/abraham/reflection/badge.svg?branch=master)](https://coveralls.io/github/abraham/reflection?branch=master)
 
 Reflection
 ====

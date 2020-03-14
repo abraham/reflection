@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint src --ext .ts",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
@@ -40,6 +41,7 @@
     "@types/jest": "25.1.4",
     "@typescript-eslint/eslint-plugin": "2.23.0",
     "@typescript-eslint/parser": "2.23.0",
+    "coveralls": "3.0.9",
     "eslint": "6.8.0",
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jest": "23.8.2",
@@ -51,6 +53,7 @@
     "typescript": "3.8.3"
   },
   "jest": {
+    "collectCoverage": true,
     "roots": [
       "<rootDir>/src"
     ],
