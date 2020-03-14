@@ -11,9 +11,10 @@
     "lint": "tslint src/*",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
-    "prepublishOnly": "pkg-ok",
+    "prepublishOnly": "npm run pkg-ok",
+    "pkg-ok": "pkg-ok",
     "start": "jest --watch",
-    "test": "jest && npm run lint"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
