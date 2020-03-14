@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
-    "lint": "tslint src/*",
+    "lint": "eslint src --ext .ts",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
     "prepublishOnly": "npm run pkg-ok",
@@ -38,12 +38,16 @@
   "homepage": "https://github.com/abraham/reflection#readme",
   "devDependencies": {
     "@types/jest": "25.1.4",
+    "@typescript-eslint/eslint-plugin": "2.23.0",
+    "@typescript-eslint/parser": "2.23.0",
+    "eslint": "6.8.0",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jest": "23.8.2",
     "jest": "25.1.0",
     "pkg-ok": "2.3.1",
     "rimraf": "3.0.2",
     "rollup": "2.0.6",
     "ts-jest": "25.2.1",
-    "tslint": "5.20.1",
     "typescript": "3.8.3"
   },
   "jest": {
@@ -78,5 +82,21 @@
       "format": "umd",
       "name": "@abraham/reflection"
     }
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "plugin:import/errors",
+      "plugin:import/typescript"
+    ]
   }
 }
