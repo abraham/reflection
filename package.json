@@ -48,7 +48,7 @@
     "jest": "25.1.0",
     "pkg-ok": "2.3.1",
     "rimraf": "3.0.2",
-    "rollup": "2.0.6",
+    "rollup": "2.1.0",
     "ts-jest": "25.2.1",
     "typescript": "3.8.3"
   },
