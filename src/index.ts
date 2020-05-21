@@ -136,7 +136,8 @@ export function hasMetadata(metadataKey: MetadataKey, target: Target, propertyKe
 export function defineMetadata<MetadataValue>(
   metadataKey: MetadataKey,
   metadataValue: MetadataValue,
-  target: Target, propertyKey?: PropertyKey,
+  target: Target,
+  propertyKey?: PropertyKey,
 ): void {
   ordinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
 }
