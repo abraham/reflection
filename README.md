@@ -4,13 +4,11 @@
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@abraham/reflection.svg?style=flat&colorB=4bc524)](https://bundlephobia.com/result?p=@abraham/reflection)
 [![Coverage Status](https://coveralls.io/repos/github/abraham/reflection/badge.svg?branch=master)](https://coveralls.io/github/abraham/reflection?branch=master)
 
-Reflection
-====
+# Reflection
 
 Lightweight ES Module implementation of [reflect-metadata](https://github.com/rbuckton/reflect-metadata/) to work with TypeScript's [experimental decorator support](https://www.typescriptlang.org/docs/handbook/decorators.html).
 
-Why?
-----
+## Why?
 
 The main reason for this library is to provide a much smaller implementation that can be included as a module.
 
@@ -23,15 +21,13 @@ The main reason for this library is to provide a much smaller implementation tha
 
 Read about how to [drop 20K from your production Angular app](https://bendyworks.com/blog/drop-20k-from-your-production-angular-app) by switching to this.
 
-Install
-----
+## Install
 
 ```sh
 npm install @abraham/reflection
 ```
 
-Usage
------
+## Usage
 
 ```ts
 import '@abraham/reflection';
@@ -45,8 +41,7 @@ import { Reflection as Reflect } from '@abraham/reflection';
 Reflect.defineMetadata(metadataKey, metadataValue, target);
 ```
 
-API
-----
+## API
 
 Reflection does not currently cover the complete API surface of reflect-metadata. The following methods are available:
 

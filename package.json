@@ -9,11 +9,14 @@
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "lint": "eslint src --ext .ts",
+    "format": "prettier . --write",
+    "lint:eslint": "eslint src --ext .ts",
+    "lint:prettier": "prettier . --check",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "pkg-ok": "pkg-ok",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
     "prepublishOnly": "npm run pkg-ok",
-    "pkg-ok": "pkg-ok",
     "start": "jest --watch",
     "test": "jest"
   },
@@ -47,6 +50,7 @@
     "eslint-plugin-jest": "23.13.2",
     "jest": "26.0.1",
     "pkg-ok": "2.3.1",
+    "prettier": "2.0.5",
     "rimraf": "3.0.2",
     "rollup": "2.12.0",
     "ts-jest": "26.1.0",
@@ -101,5 +105,9 @@
       "plugin:import/errors",
       "plugin:import/typescript"
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
