@@ -27,16 +27,22 @@ test('defined on prototype', () => {
 });
 
 test('not defined with property key', () => {
-  expect(Reflect.getOwnMetadata(metadataKey, target, propertyKey)).toBeUndefined();
+  expect(
+    Reflect.getOwnMetadata(metadataKey, target, propertyKey),
+  ).toBeUndefined();
 });
 
 test('defined with property key', () => {
   Reflect.defineMetadata(metadataKey, metadataValue, target, propertyKey);
-  expect(Reflect.getOwnMetadata(metadataKey, target, propertyKey)).toEqual(metadataValue);
+  expect(Reflect.getOwnMetadata(metadataKey, target, propertyKey)).toEqual(
+    metadataValue,
+  );
 });
 
 test('defined on prototype with property key', () => {
   const target = Object.create(prototype);
   Reflect.defineMetadata(metadataKey, metadataValue, prototype, propertyKey);
-  expect(Reflect.getOwnMetadata(metadataKey, target, propertyKey)).toBeUndefined();
+  expect(
+    Reflect.getOwnMetadata(metadataKey, target, propertyKey),
+  ).toBeUndefined();
 });

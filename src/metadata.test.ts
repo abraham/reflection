@@ -6,7 +6,9 @@ const decorator = Reflect.metadata(metadataKey, metadataValue);
 const propertyKey = 'name';
 
 test('returns function', () => {
-  expect(typeof Reflect.metadata(metadataKey, metadataValue)).toEqual('function');
+  expect(typeof Reflect.metadata(metadataKey, metadataValue)).toEqual(
+    'function',
+  );
 });
 
 test('with invalid target', () => {
@@ -21,7 +23,9 @@ test('with invalid property key', () => {
 });
 
 test('with target and without property key', () => {
-  const target = (): undefined => { return; };
+  const target = (): undefined => {
+    return;
+  };
   decorator(target);
   expect(Reflect.hasOwnMetadata(metadataKey, target)).toBeTruthy();
 });

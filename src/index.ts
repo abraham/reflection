@@ -22,7 +22,10 @@ function decorateProperty(
   return descriptor;
 }
 
-function decorateConstructor(decorators: ClassDecorator[], target: Function): Function {
+function decorateConstructor(
+  decorators: ClassDecorator[],
+  target: Function,
+): Function {
   decorators.reverse().forEach((decorator: ClassDecorator) => {
     const decorated = decorator(target);
     if (decorated) {
@@ -32,7 +35,10 @@ function decorateConstructor(decorators: ClassDecorator[], target: Function): Fu
   return target;
 }
 
-export function decorate(decorators: ClassDecorator[], target: Function): Function;
+export function decorate(
+  decorators: ClassDecorator[],
+  target: Function,
+): Function;
 export function decorate(
   decorators: MemberDecorator[],
   target: object,
@@ -45,12 +51,19 @@ export function decorate(
   propertyKey?: PropertyKey,
   attributes?: PropertyDescriptor,
 ): Function | PropertyDescriptor | undefined {
-  if (decorators.length === 0) { throw new TypeError(); }
+  if (decorators.length === 0) {
+    throw new TypeError();
+  }
 
   if (typeof target === 'function') {
     return decorateConstructor(decorators as ClassDecorator[], target);
   } else if (propertyKey !== undefined) {
-    return decorateProperty(decorators as MemberDecorator[], target, propertyKey, attributes);
+    return decorateProperty(
+      decorators as MemberDecorator[],
+      target,
+      propertyKey,
+      attributes,
+    );
   }
   return;
 }
@@ -78,9 +91,12 @@ function createMetadataMap<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): Map<MetadataKey, MetadataValue> {
-  const targetMetadata = Metadata.get(target) || new Map<PropertyKey | undefined, Map<MetadataKey, MetadataValue>>();
+  const targetMetadata =
+    Metadata.get(target) ||
+    new Map<PropertyKey | undefined, Map<MetadataKey, MetadataValue>>();
   Metadata.set(target, targetMetadata);
-  const metadataMap = targetMetadata.get(propertyKey) || (new Map<MetadataKey, MetadataValue>());
+  const metadataMap =
+    targetMetadata.get(propertyKey) || new Map<MetadataKey, MetadataValue>();
   targetMetadata.set(propertyKey, metadataMap);
   return metadataMap;
 }
@@ -95,8 +111,10 @@ function ordinaryDefineOwnMetadata<MetadataValue>(
     throw new TypeError();
   }
 
-  (getMetadataMap<MetadataValue>(target, propertyKey) || createMetadataMap<MetadataValue>(target, propertyKey))
-    .set(metadataKey, metadataValue);
+  (
+    getMetadataMap<MetadataValue>(target, propertyKey) ||
+    createMetadataMap<MetadataValue>(target, propertyKey)
+  ).set(metadataKey, metadataValue);
 }
 
 function ordinaryGetMetadata<MetadataValue>(
@@ -107,29 +125,61 @@ function ordinaryGetMetadata<MetadataValue>(
   return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     ? ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     : Object.getPrototypeOf(target)
-    ? ordinaryGetMetadata(metadataKey, Object.getPrototypeOf(target), propertyKey)
+    ? ordinaryGetMetadata(
+        metadataKey,
+        Object.getPrototypeOf(target),
+        propertyKey,
+      )
     : undefined;
 }
 
-export function metadata<MetadataValue>(metadataKey: MetadataKey, metadataValue: MetadataValue) {
+export function metadata<MetadataValue>(
+  metadataKey: MetadataKey,
+  metadataValue: MetadataValue,
+) {
   return function decorator(target: Target, propertyKey?: PropertyKey): void {
-    ordinaryDefineOwnMetadata<MetadataValue>(metadataKey, metadataValue, target, propertyKey);
+    ordinaryDefineOwnMetadata<MetadataValue>(
+      metadataKey,
+      metadataValue,
+      target,
+      propertyKey,
+    );
   };
 }
 
-export function getMetadata<MetadataValue>(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): MetadataValue | undefined {
+export function getMetadata<MetadataValue>(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataValue | undefined {
   return ordinaryGetMetadata<MetadataValue>(metadataKey, target, propertyKey);
 }
 
-export function getOwnMetadata<MetadataValue>(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): MetadataValue | undefined {
-  return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey);
+export function getOwnMetadata<MetadataValue>(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataValue | undefined {
+  return ordinaryGetOwnMetadata<MetadataValue>(
+    metadataKey,
+    target,
+    propertyKey,
+  );
 }
 
-export function hasOwnMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
+export function hasOwnMetadata(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): boolean {
   return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
 }
 
-export function hasMetadata(metadataKey: MetadataKey, target: Target, propertyKey?: PropertyKey): boolean {
+export function hasMetadata(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): boolean {
   return !!ordinaryGetMetadata(metadataKey, target, propertyKey);
 }
 
