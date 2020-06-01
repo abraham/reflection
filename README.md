@@ -1,5 +1,5 @@
 [![Version Status](https://img.shields.io/npm/v/@abraham/reflection.svg?style=flat&label=version&colorB=4bc524)](https://npmjs.com/package/@abraham/reflection)
-[![Build Status](https://img.shields.io/travis/abraham/reflection.svg?style=flat)](https://travis-ci.org/abraham/reflection)
+[![Build Status](https://github.com/abraham/reflection/workflows/Index/badge.svg)](https://github.com/abraham/reflection/actions)
 [![Dependency Status](https://david-dm.org/abraham/reflection.svg?style=flat)](https://david-dm.org/abraham/reflection)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@abraham/reflection.svg?style=flat&colorB=4bc524)](https://bundlephobia.com/result?p=@abraham/reflection)
 [![Coverage Status](https://coveralls.io/repos/github/abraham/reflection/badge.svg?branch=master)](https://coveralls.io/github/abraham/reflection?branch=master)
