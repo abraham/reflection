@@ -52,7 +52,7 @@
     "rimraf": "3.0.2",
     "rollup": "2.21.0",
     "ts-jest": "26.1.2",
-    "typescript": "3.9.6"
+    "typescript": "3.9.7"
   },
   "jest": {
     "collectCoverage": true,
