@@ -128,12 +128,12 @@ function ordinaryGetMetadata<MetadataValue>(
   return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     ? ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     : Object.getPrototypeOf(target)
-      ? ordinaryGetMetadata(
+    ? ordinaryGetMetadata(
         metadataKey,
         Object.getPrototypeOf(target),
         propertyKey,
       )
-      : undefined;
+    : undefined;
 }
 
 export function metadata<MetadataValue>(
