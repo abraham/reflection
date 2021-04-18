@@ -357,3 +357,33 @@ test('decorate with property name and descriptor correct target for functions wi
   Reflect.decorate(decorators, target, property, descriptor);
   expect(sent).toStrictEqual([descriptor, b, a, a]);
 });
+
+test('decorate static property', () => {
+  class StaticTest {
+    getProp() {}
+
+    static getStatic() {}
+  }
+
+  const descriptors: PropertyDescriptor[] = [];
+  const decorators: any = [
+    (_: object, _1: string | symbol, descriptor: PropertyDescriptor): void => {
+      descriptors.push(descriptor);
+    },
+  ];
+
+  Reflect.decorate(
+    decorators,
+    StaticTest,
+    'getStatic',
+    Object.getOwnPropertyDescriptor(StaticTest, 'getStatic'),
+  );
+  Reflect.decorate(
+    decorators,
+    StaticTest.prototype,
+    'getProp',
+    Object.getOwnPropertyDescriptor(StaticTest.prototype, 'getProp'),
+  );
+
+  expect(descriptors).not.toContain(undefined);
+});
