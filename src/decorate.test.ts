@@ -360,9 +360,13 @@ test('decorate with property name and descriptor correct target for functions wi
 
 test('decorate static property', () => {
   class StaticTest {
-    getProp() {}
+    getProp() {
+      return;
+    }
 
-    static getStatic() {}
+    static getStatic() {
+      return;
+    }
   }
 
   const descriptors: PropertyDescriptor[] = [];
