@@ -51,13 +51,11 @@ export function decorate(
   propertyKey?: PropertyKey,
   attributes?: PropertyDescriptor,
 ): Function | PropertyDescriptor | undefined {
-  if (decorators.length === 0) {
+  if (!Array.isArray(decorators) || decorators.length === 0) {
     throw new TypeError();
   }
 
-  if (typeof target === 'function') {
-    return decorateConstructor(decorators as ClassDecorator[], target);
-  } else if (propertyKey !== undefined) {
+  if (propertyKey !== undefined) {
     return decorateProperty(
       decorators as MemberDecorator[],
       target,
@@ -65,6 +63,11 @@ export function decorate(
       attributes,
     );
   }
+
+  if (typeof target === 'function') {
+    return decorateConstructor(decorators as ClassDecorator[], target);
+  }
+
   return;
 }
 
