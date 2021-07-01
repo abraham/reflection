@@ -46,7 +46,7 @@
     "eslint": "7.27.0",
     "eslint-plugin-import": "2.23.4",
     "eslint-plugin-jest": "24.3.6",
-    "jest": "27.0.3",
+    "jest": "27.0.6",
     "pkg-ok": "2.3.1",
     "prettier": "2.3.0",
     "rimraf": "3.0.2",
