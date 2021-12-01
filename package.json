@@ -48,7 +48,7 @@
     "eslint-plugin-jest": "25.2.2",
     "jest": "27.3.1",
     "pkg-ok": "2.3.1",
-    "prettier": "2.4.1",
+    "prettier": "2.5.0",
     "rimraf": "3.0.2",
     "rollup": "2.59.0",
     "ts-jest": "27.0.7",
