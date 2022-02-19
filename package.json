@@ -41,9 +41,9 @@
   "homepage": "https://github.com/abraham/reflection#readme",
   "devDependencies": {
     "@types/jest": "27.4.0",
-    "@typescript-eslint/eslint-plugin": "2.34.0",
-    "@typescript-eslint/parser": "2.34.0",
-    "eslint": "7.32.0",
+    "@typescript-eslint/eslint-plugin": "5.12.0",
+    "@typescript-eslint/parser": "5.12.0",
+    "eslint": "8.9.0",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jest": "26.1.0",
     "jest": "27.5.0",
@@ -94,7 +94,18 @@
       "plugin:jest/recommended",
       "plugin:import/errors",
       "plugin:import/typescript"
-    ]
+    ],
+    "rules": {
+      "@typescript-eslint/ban-types": [
+        "error",
+        {
+          "types": {
+            "Function": false
+          },
+          "extendDefaults": true
+        }
+      ]
+    }
   },
   "prettier": {
     "singleQuote": true,
