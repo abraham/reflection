@@ -20,6 +20,10 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm run test
+      - name: module test
+        run: |
+          node --input-type=module --eval "import * as m from '@abraham/reflection'; console.log(m)"
+          node --input-type=commonjs --eval "const m = require('@abraham/reflection'); console.log(m)"
       - run: npm run pkg-ok
       - uses: coverallsapp/github-action@master
         with:
