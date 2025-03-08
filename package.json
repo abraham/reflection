@@ -1,6 +1,6 @@
 {
   "name": "@abraham/reflection",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Lightweight ES Module implementation of reflect-metadata",
   "type": "module",
   "exports": {
