@@ -45,10 +45,9 @@
   },
   "homepage": "https://github.com/abraham/reflection#readme",
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": "^10.0.1",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.0.0",
-    "eslint-plugin-import": "^2.0.0",
+    "eslint": "^10.2.1",
     "eslint-plugin-jest": "^29.0.1",
     "jest": "^30.0.3",
     "pkg-ok": "^3.0.0",
