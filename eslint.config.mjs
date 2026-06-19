@@ -1,5 +1,5 @@
 import eslint from '@eslint/js';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import jest from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
 
