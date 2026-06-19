@@ -14,7 +14,7 @@
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
     "format": "prettier . --write",
-    "lint:eslint": "eslint src --ext .ts",
+    "lint:eslint": "eslint src",
     "lint:prettier": "prettier . --check",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "pkg-ok": "pkg-ok",
@@ -48,10 +48,9 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": "^10.0.0",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.0.0",
-    "eslint-plugin-import": "^2.0.0",
+    "eslint": "^10.0.0",
     "eslint-plugin-jest": "^29.0.1",
     "jest": "^30.0.3",
     "pkg-ok": "^3.0.0",
@@ -60,7 +59,7 @@
     "rollup": "^4.0.0",
     "ts-jest": "^29.0.0",
     "typescript": "^5.0.0",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.56.0"
   },
   "jest": {
     "collectCoverage": true,
