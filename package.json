@@ -44,6 +44,9 @@
     "url": "https://github.com/abraham/reflection/issues"
   },
   "homepage": "https://github.com/abraham/reflection#readme",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
     "@types/jest": "^30.0.0",
