@@ -58,7 +58,7 @@
     "rimraf": "^6.0.1",
     "rollup": "^4.0.0",
     "ts-jest": "^29.0.0",
-    "typescript": "^5.0.0",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.56.0"
   },
   "jest": {
@@ -67,7 +67,12 @@
       "<rootDir>/src"
     ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.test.json"
+        }
+      ]
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "moduleFileExtensions": [
