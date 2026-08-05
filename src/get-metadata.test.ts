@@ -40,3 +40,11 @@ test('when defined on prototype with a property key', () => {
   Reflect.defineMetadata('key', 'value', prototype, 'name');
   expect(Reflect.getMetadata('key', target, 'name')).toEqual('value');
 });
+
+test('when value is falsy', () => {
+  const target = {};
+  const value = 0;
+
+  Reflect.defineMetadata('key', value, target, 'name');
+  expect(Reflect.getMetadata('key', target, 'name')).toEqual(value);
+});
