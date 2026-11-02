@@ -6,7 +6,6 @@ workflows:
     '.github/workflows/index.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'coverallsapp/github-action@master'
     '.github/workflows/publish.yaml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
@@ -21,8 +20,3 @@ dependencies:
         commit: 'sha1-949feb2413d6458794dcd2491c4babbbce0c15c1'
         owner_id: 44036562
         repo_id: 189476904
-    'coverallsapp/github-action@master':
-        ref: 'master'
-        commit: 'sha1-09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d'
-        owner_id: 16691566
-        repo_id: 200696780

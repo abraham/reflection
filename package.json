@@ -21,8 +21,8 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run pkg-ok",
     "start": "node --test --watch 'src/**/*.test.ts'",
-    "pretest": "tsc -p tsconfig.test.json && mkdir -p coverage",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude='src/**/*.test.ts' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info 'src/**/*.test.ts'"
+    "pretest": "tsc -p tsconfig.test.json",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude='src/**/*.test.ts' --test-reporter=spec 'src/**/*.test.ts'"
   },
   "repository": {
     "type": "git",
