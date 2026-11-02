@@ -3,6 +3,16 @@ on:
   push:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+      - run: npm install
+      - run: npm run lint
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -15,7 +25,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
-      - run: npm run lint
       - run: npm run build
       - run: npm run test
       - name: module test
@@ -26,3 +35,12 @@ jobs:
       - uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  index-required:
+    if: ${{ !cancelled() }}
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: exit 1
