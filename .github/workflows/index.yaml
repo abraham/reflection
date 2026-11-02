@@ -42,10 +42,16 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test
-      - name: module test
-        run: |
-          node --input-type=module --eval "import * as m from '@abraham/reflection'; console.log(m)"
-          node --input-type=commonjs --eval "const m = require('@abraham/reflection'); console.log(m)"
+      - name: import
+        run: node --input-type=module --eval "import * as m from '@abraham/reflection'; console.log(m)"
+      - name: require
+        run: node --input-type=commonjs --eval "const m = require('@abraham/reflection'); console.log(m)"
+      - name: import legacy
+        run: node --input-type=module --eval "import * as m from '@abraham/reflection/legacy'; import * as d from '@abraham/reflection'; if (m.Reflection !== d.Reflection) process.exit(1)"
+      - name: require legacy
+        run: node --input-type=commonjs --eval "if (require('@abraham/reflection/legacy') !== require('@abraham/reflection')) process.exit(1)"
+      - name: import standard
+        run: node --input-type=module --eval "import * as m from '@abraham/reflection/standard'; console.log(m)"
       - run: npm run pkg-ok
 
   index-required:
