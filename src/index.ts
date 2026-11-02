@@ -184,6 +184,26 @@ function ordinaryGetMetadata<MetadataValue>(
     : undefined;
 }
 
+function ordinaryOwnMetadataKeys(
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataKey[] {
+  return [...(getMetadataMap(target, propertyKey)?.keys() ?? [])];
+}
+
+function ordinaryMetadataKeys(
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataKey[] {
+  const ownKeys = ordinaryOwnMetadataKeys(target, propertyKey);
+  const parent = Object.getPrototypeOf(target);
+  if (parent === null) {
+    return ownKeys;
+  }
+  const parentKeys = ordinaryMetadataKeys(parent, propertyKey);
+  return [...new Set([...ownKeys, ...parentKeys])];
+}
+
 export function metadata<MetadataValue>(
   metadataKey: MetadataKey,
   metadataValue: MetadataValue,
@@ -256,11 +276,45 @@ export function defineMetadata<MetadataValue>(
   ordinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
 }
 
+export function getMetadataKeys(
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataKey[] {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
+  return ordinaryMetadataKeys(target, propertyKey);
+}
+
+export function getOwnMetadataKeys(
+  target: Target,
+  propertyKey?: PropertyKey,
+): MetadataKey[] {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
+  return ordinaryOwnMetadataKeys(target, propertyKey);
+}
+
+export function deleteMetadata(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): boolean {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
+  return getMetadataMap(target, propertyKey)?.delete(metadataKey) ?? false;
+}
+
 export const Reflection = {
   decorate,
   defineMetadata,
+  deleteMetadata,
   getMetadata,
+  getMetadataKeys,
   getOwnMetadata,
+  getOwnMetadataKeys,
   hasMetadata,
   hasOwnMetadata,
   metadata,
@@ -307,6 +361,19 @@ declare global {
       metadataKey: MetadataKey,
       metadataValue: MetadataValue,
     ): (target: Target, propertyKey?: PropertyKey) => void;
+    function getMetadataKeys(
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): MetadataKey[];
+    function getOwnMetadataKeys(
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): MetadataKey[];
+    function deleteMetadata(
+      metadataKey: MetadataKey,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): boolean;
   }
 }
 

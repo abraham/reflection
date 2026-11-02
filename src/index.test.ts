@@ -30,6 +30,18 @@ test('getOwnMetadata', () => {
   assert.equal(Reflect.getOwnMetadata, Reflection.getOwnMetadata);
 });
 
+test('getMetadataKeys', () => {
+  assert.equal(Reflect.getMetadataKeys, Reflection.getMetadataKeys);
+});
+
+test('getOwnMetadataKeys', () => {
+  assert.equal(Reflect.getOwnMetadataKeys, Reflection.getOwnMetadataKeys);
+});
+
+test('deleteMetadata', () => {
+  assert.equal(Reflect.deleteMetadata, Reflection.deleteMetadata);
+});
+
 // Test Reflect standard API
 
 test('apply', () => {

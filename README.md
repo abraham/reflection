@@ -42,14 +42,17 @@ Reflect.defineMetadata(metadataKey, metadataValue, target);
 
 ## API
 
-Reflection does not currently cover the complete API surface of reflect-metadata. The following methods are available:
+The following methods are available:
 
 ```ts
 Reflect.decorate(...);
 Reflect.defineMetadata(...);
+Reflect.deleteMetadata(...);
 Reflect.getMetadata(...);
-Reflect.hasMetadata(...);
+Reflect.getMetadataKeys(...);
 Reflect.getOwnMetadata(...);
+Reflect.getOwnMetadataKeys(...);
+Reflect.hasMetadata(...);
 Reflect.hasOwnMetadata(...);
 Reflect.metadata(...);
 ```
