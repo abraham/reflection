@@ -1,21 +1,37 @@
-name: Publish Package to npmjs
+name: Publish Package
+
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/@abraham/reflection/v/${{ steps.version.outputs.version }}
+    concurrency:
+      group: deploy-npm
+      cancel-in-progress: false
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7.0.1
         with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm i
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - id: version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          test "v$version" = "$GITHUB_REF_NAME"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: npm install
+      - run: npm publish --access public
