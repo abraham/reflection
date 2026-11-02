@@ -8,6 +8,19 @@ test('with invalid target', () => {
   assert.throws(() => Reflect.getMetadata('key', target), TypeError);
 });
 
+for (const target of [null, 1, 'string', Symbol('target')] as any[]) {
+  test(`with ${String(target)} target`, () => {
+    assert.throws(() => Reflect.getMetadata('key', target), TypeError);
+    assert.throws(() => Reflect.getOwnMetadata('key', target), TypeError);
+    assert.throws(() => Reflect.hasMetadata('key', target), TypeError);
+    assert.throws(() => Reflect.hasOwnMetadata('key', target), TypeError);
+    assert.throws(
+      () => Reflect.defineMetadata('key', 'value', target),
+      TypeError,
+    );
+  });
+}
+
 test('when not defined', () => {
   const target = {};
   assert.equal(Reflect.getMetadata('key', target), undefined);

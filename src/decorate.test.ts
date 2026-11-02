@@ -15,7 +15,80 @@ test('with no decorators', () => {
   const target = (): undefined => {
     return;
   };
+  assert.equal(Reflect.decorate(decorators, target), target);
+});
+
+test('with no decorators and a property', () => {
+  const descriptor = {};
+  assert.equal(Reflect.decorate([], {}, 'name', descriptor), descriptor);
+});
+
+test('with class decorators and a non-function target', () => {
+  const decorators: any = [() => undefined];
+  assert.throws(() => Reflect.decorate(decorators, {}), TypeError);
+});
+
+test('with a non-object decorator', () => {
+  let called = false;
+  const decorators: any = [
+    1,
+    (): void => {
+      called = true;
+    },
+  ];
+  assert.throws(() => Reflect.decorate(decorators, {}, 'name'), TypeError);
+  assert.equal(called, false);
+});
+
+test('with non-object attributes', () => {
+  const attributes: any = null;
+  assert.throws(
+    () => Reflect.decorate([() => undefined], {}, 'name', attributes),
+    TypeError,
+  );
+});
+
+test('when a class decorator returns a non-function', () => {
+  const decorators: any = [() => ({})];
+  const target = (): undefined => {
+    return;
+  };
   assert.throws(() => Reflect.decorate(decorators, target), TypeError);
+});
+
+test('when a property decorator returns a primitive', () => {
+  const decorators: any = [() => 1];
+  assert.throws(() => Reflect.decorate(decorators, {}, 'name'), TypeError);
+});
+
+test('converts the property key', () => {
+  const keys: unknown[] = [];
+  const decorators: any = [
+    (_target: object, key: unknown): void => {
+      keys.push(key);
+    },
+  ];
+  const propertyKey: any = 1;
+  const symbolKey = Symbol('name');
+  Reflect.decorate(decorators, {}, propertyKey);
+  Reflect.decorate(decorators, {}, symbolKey);
+  Reflect.decorate(decorators, {}, undefined, {});
+  assert.deepEqual(keys, ['1', symbolKey, 'undefined']);
+});
+
+test('calls decorators with a null this', () => {
+  const receivers: unknown[] = [];
+  const decorators = [
+    function (this: unknown): void {
+      receivers.push(this);
+    },
+  ];
+  const target = (): undefined => {
+    return;
+  };
+  Reflect.decorate(decorators, target);
+  Reflect.decorate(decorators, {}, 'name');
+  assert.deepEqual(receivers, [null, null]);
 });
 
 test('with property and invalid decorators', () => {
@@ -70,8 +143,11 @@ test('with decorators, undefined property, and descriptor and invalid target', (
   const target: any = 1;
   const property = undefined;
   const descriptor = {};
-  const result = Reflect.decorate(decorators, target, property, descriptor);
-  assert.equal(result, undefined);
+  assert.throws(
+    () => Reflect.decorate(decorators, target, property, descriptor),
+    TypeError,
+  );
+  assert.deepEqual(sent, []);
 });
 
 test('executes decorators in reverse order for function', () => {

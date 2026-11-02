@@ -22,6 +22,12 @@ test('with invalid property key', () => {
   assert.throws(() => decorator(target, invalidPropertyKey), TypeError);
 });
 
+test('with falsy non-property key', () => {
+  const target = {};
+  const invalidPropertyKey: any = 0;
+  assert.throws(() => decorator(target, invalidPropertyKey), TypeError);
+});
+
 test('with target and without property key', () => {
   const target = (): undefined => {
     return;
