@@ -20,8 +20,9 @@
     "prebuild": "npm run clean",
     "prepare": "npm run build",
     "prepublishOnly": "npm run pkg-ok",
-    "start": "jest --watch",
-    "test": "jest"
+    "start": "node --test --watch 'src/**/*.test.ts'",
+    "pretest": "tsc -p tsconfig.test.json && mkdir -p coverage",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude='src/**/*.test.ts' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info 'src/**/*.test.ts'"
   },
   "repository": {
     "type": "git",
@@ -48,39 +49,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
-    "@types/jest": "^30.0.0",
+    "@types/node": "^22.20.5",
     "eslint": "^10.0.0",
-    "eslint-plugin-jest": "^29.0.1",
-    "jest": "^30.0.3",
     "pkg-ok": "^4.0.0",
     "prettier": "3.9.10",
     "rimraf": "^6.0.1",
     "rollup": "^4.0.0",
-    "ts-jest": "^29.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.56.0"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": [
-        "ts-jest",
-        {
-          "tsconfig": "tsconfig.test.json"
-        }
-      ]
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }

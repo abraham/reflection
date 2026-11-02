@@ -1,11 +1,13 @@
-import { MemberDecorator, Reflection as Reflect } from './index';
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { type MemberDecorator, Reflection as Reflect } from './index.ts';
 
 test('with invalid decorators and target', () => {
   const decorators: any = undefined;
   const target = (): undefined => {
     return;
   };
-  expect(() => Reflect.decorate(decorators, target)).toThrow(TypeError);
+  assert.throws(() => Reflect.decorate(decorators, target), TypeError);
 });
 
 test('with no decorators', () => {
@@ -13,14 +15,15 @@ test('with no decorators', () => {
   const target = (): undefined => {
     return;
   };
-  expect(() => Reflect.decorate(decorators, target)).toThrow(TypeError);
+  assert.throws(() => Reflect.decorate(decorators, target), TypeError);
 });
 
 test('with property and invalid decorators', () => {
   const decorators: any = undefined;
   const target = {};
   const property = 'name';
-  expect(() => Reflect.decorate(decorators, target, property)).toThrow(
+  assert.throws(
+    () => Reflect.decorate(decorators, target, property),
     TypeError,
   );
 });
@@ -29,7 +32,8 @@ test('with property and invalid decorators and invalid target', () => {
   const decorators: PropertyDecorator[] = [];
   const target: any = 1;
   const property = 'name';
-  expect(() => Reflect.decorate(decorators, target, property)).toThrow(
+  assert.throws(
+    () => Reflect.decorate(decorators, target, property),
     TypeError,
   );
 });
@@ -39,9 +43,10 @@ test('with property and descriptor and invalid decorators', () => {
   const target = {};
   const property = 'name';
   const descriptor = {};
-  expect(() =>
-    Reflect.decorate(decorators, target, property, descriptor),
-  ).toThrow(TypeError);
+  assert.throws(
+    () => Reflect.decorate(decorators, target, property, descriptor),
+    TypeError,
+  );
 });
 
 test('with decorators, property, and descriptor and invalid target', () => {
@@ -49,9 +54,10 @@ test('with decorators, property, and descriptor and invalid target', () => {
   const target: any = 1;
   const property = 'name';
   const descriptor = {};
-  expect(() =>
-    Reflect.decorate(decorators, target, property, descriptor),
-  ).toThrow(TypeError);
+  assert.throws(
+    () => Reflect.decorate(decorators, target, property, descriptor),
+    TypeError,
+  );
 });
 
 test('with decorators, undefined property, and descriptor and invalid target', () => {
@@ -65,7 +71,7 @@ test('with decorators, undefined property, and descriptor and invalid target', (
   const property = undefined;
   const descriptor = {};
   const result = Reflect.decorate(decorators, target, property, descriptor);
-  expect(result).toBeUndefined();
+  assert.equal(result, undefined);
 });
 
 test('executes decorators in reverse order for function', () => {
@@ -82,8 +88,7 @@ test('executes decorators in reverse order for function', () => {
     return;
   };
   Reflect.decorate(decorators, target);
-  expect(order[0]).toEqual(1);
-  expect(order[1]).toEqual(0);
+  assert.deepEqual(order, [1, 0]);
 });
 
 test('executes decorators in reverse order for property', () => {
@@ -99,8 +104,7 @@ test('executes decorators in reverse order for property', () => {
   const target = {};
   const property = 'name';
   Reflect.decorate(decorators, target, property);
-  expect(order[0]).toEqual(1);
-  expect(order[1]).toEqual(0);
+  assert.deepEqual(order, [1, 0]);
 });
 
 test('executes decorators in reverse order for property with descriptor', () => {
@@ -117,8 +121,7 @@ test('executes decorators in reverse order for property with descriptor', () => 
   const property = 'name';
   const descriptor = {};
   Reflect.decorate(decorators, target, property, descriptor);
-  expect(order[0]).toEqual(1);
-  expect(order[1]).toEqual(0);
+  assert.deepEqual(order, [1, 0]);
 });
 
 test('applies decorators to function', () => {
@@ -139,7 +142,7 @@ test('applies decorators to function', () => {
     return;
   };
   const result = Reflect.decorate(decorators, target);
-  expect(result).toStrictEqual(a);
+  assert.equal(result, a);
 });
 
 test('applies decorators to target property', () => {
@@ -159,7 +162,7 @@ test('applies decorators to target property', () => {
   const target = {};
   const property = 'name';
   const result = Reflect.decorate(decorators, target, property);
-  expect(result).toStrictEqual(a);
+  assert.equal(result, a);
 });
 
 test('applies decorators to target property with descriptor', () => {
@@ -180,7 +183,7 @@ test('applies decorators to target property with descriptor', () => {
   const property = 'name';
   const descriptor = {};
   const result = Reflect.decorate(decorators, target, property, descriptor);
-  expect(result).toStrictEqual(a);
+  assert.equal(result, a);
 });
 
 test('decorate correct target for function', () => {
@@ -211,10 +214,7 @@ test('decorate correct target for function', () => {
     return;
   };
   Reflect.decorate(decorators, target);
-  expect(sent[0]).toStrictEqual(target);
-  expect(sent[1]).toStrictEqual(b);
-  expect(sent[2]).toStrictEqual(a);
-  expect(sent[3]).toStrictEqual(a);
+  assert.deepEqual(sent, [target, b, a, a]);
 });
 
 test('decorate with property name correct target for function', () => {
@@ -236,7 +236,7 @@ test('decorate with property name correct target for function', () => {
   const target = {};
   const property = 'name';
   Reflect.decorate(decorators, target, property);
-  expect(sent).toStrictEqual([target, target, target, target]);
+  assert.deepEqual(sent, [target, target, target, target]);
 });
 
 test('decorate with property name correct target for functions with name', () => {
@@ -258,7 +258,7 @@ test('decorate with property name correct target for functions with name', () =>
   const target = {};
   const property = 'name';
   Reflect.decorate(decorators, target, property);
-  expect(sent).toStrictEqual([property, property, property, property]);
+  assert.deepEqual(sent, [property, property, property, property]);
 });
 
 test('decorate with property name and descriptor correct target for functions', () => {
@@ -285,7 +285,7 @@ test('decorate with property name and descriptor correct target for functions', 
   const property = 'name';
   const descriptor = {};
   Reflect.decorate(decorators, target, property, descriptor);
-  expect(sent).toStrictEqual([target, target, target, target]);
+  assert.deepEqual(sent, [target, target, target, target]);
 });
 
 test('decorate with property name and descriptor correct target for functions with name', () => {
@@ -312,7 +312,7 @@ test('decorate with property name and descriptor correct target for functions wi
   const property = 'name';
   const descriptor = {};
   Reflect.decorate(decorators, target, property, descriptor);
-  expect(sent).toStrictEqual([property, property, property, property]);
+  assert.deepEqual(sent, [property, property, property, property]);
 });
 
 test('decorate with property name and descriptor correct target for functions with name and descriptor', () => {
@@ -355,7 +355,7 @@ test('decorate with property name and descriptor correct target for functions wi
   const property = 'name';
   const descriptor = {};
   Reflect.decorate(decorators, target, property, descriptor);
-  expect(sent).toStrictEqual([descriptor, b, a, a]);
+  assert.deepEqual(sent, [descriptor, b, a, a]);
 });
 
 test('decorate static property', () => {
@@ -389,5 +389,5 @@ test('decorate static property', () => {
     Object.getOwnPropertyDescriptor(StaticTest.prototype, 'getProp'),
   );
 
-  expect(descriptors).not.toContain(undefined);
+  assert.ok(descriptors.every((descriptor) => descriptor !== undefined));
 });

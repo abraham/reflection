@@ -1,62 +1,67 @@
-import './index';
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { inspect } from 'node:util';
+import './index.ts';
 
 test('with invalid target', () => {
   const target: any = undefined;
-  expect(() => Reflect.hasMetadata('key', target)).toThrow(TypeError);
+  assert.throws(() => Reflect.hasMetadata('key', target), TypeError);
 });
 
 test('when not defined', () => {
   const target = {};
-  expect(Reflect.hasMetadata('key', target)).toBeFalsy();
+  assert.equal(Reflect.hasMetadata('key', target), false);
 });
 
 test('when defined', () => {
   const target = {};
   Reflect.defineMetadata('key', 'value', target);
-  expect(Reflect.hasMetadata('key', target)).toBeTruthy();
+  assert.equal(Reflect.hasMetadata('key', target), true);
 });
 
 test('when defined on prototype', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', 'value', prototype);
-  expect(Reflect.hasMetadata('key', target)).toBeTruthy();
+  assert.equal(Reflect.hasMetadata('key', target), true);
 });
 
 test('with key and not defined', () => {
   const target = {};
-  expect(Reflect.hasMetadata('key', target, 'name')).toBeFalsy();
+  assert.equal(Reflect.hasMetadata('key', target, 'name'), false);
 });
 
 test('with key and defined', () => {
   const target = {};
   Reflect.defineMetadata('key', 'value', target, 'name');
-  expect(Reflect.hasMetadata('key', target, 'name')).toBeTruthy();
+  assert.equal(Reflect.hasMetadata('key', target, 'name'), true);
 });
 
 test('when defined on prototype with a property key', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', 'value', prototype, 'name');
-  expect(Reflect.hasMetadata('key', target, 'name')).toBeTruthy();
+  assert.equal(Reflect.hasMetadata('key', target, 'name'), true);
 });
 
-test.each([0, false, '', null, NaN, undefined])('when value is %p', (value) => {
-  const target = {};
-  Reflect.defineMetadata('key', value, target, 'name');
-  expect(Reflect.hasMetadata('key', target, 'name')).toBe(true);
-  expect(Reflect.hasOwnMetadata('key', target, 'name')).toBe(true);
-});
+for (const value of [0, false, '', null, NaN, undefined]) {
+  test(`when value is ${inspect(value)}`, () => {
+    const target = {};
+    Reflect.defineMetadata('key', value, target, 'name');
+    assert.equal(Reflect.hasMetadata('key', target, 'name'), true);
+    assert.equal(Reflect.hasOwnMetadata('key', target, 'name'), true);
+  });
+}
 
 test('when value is undefined on prototype', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', undefined, prototype);
-  expect(Reflect.hasMetadata('key', target)).toBe(true);
-  expect(Reflect.hasOwnMetadata('key', target)).toBe(false);
+  assert.equal(Reflect.hasMetadata('key', target), true);
+  assert.equal(Reflect.hasOwnMetadata('key', target), false);
 });
 
 test('hasOwnMetadata with invalid target', () => {
   const target: any = undefined;
-  expect(() => Reflect.hasOwnMetadata('key', target)).toThrow(TypeError);
+  assert.throws(() => Reflect.hasOwnMetadata('key', target), TypeError);
 });
