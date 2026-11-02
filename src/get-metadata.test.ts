@@ -18,6 +18,9 @@ for (const target of [null, 1, 'string', Symbol('target')] as any[]) {
       () => Reflect.defineMetadata('key', 'value', target),
       TypeError,
     );
+    assert.throws(() => Reflect.getMetadataKeys(target), TypeError);
+    assert.throws(() => Reflect.getOwnMetadataKeys(target), TypeError);
+    assert.throws(() => Reflect.deleteMetadata('key', target), TypeError);
   });
 }
 
