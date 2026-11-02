@@ -125,14 +125,18 @@ function ordinaryGetMetadata<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): MetadataValue | undefined {
-  return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey) !== undefined
+  return ordinaryGetOwnMetadata<MetadataValue>(
+    metadataKey,
+    target,
+    propertyKey,
+  ) !== undefined
     ? ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
     : Object.getPrototypeOf(target)
       ? ordinaryGetMetadata(
-        metadataKey,
-        Object.getPrototypeOf(target),
-        propertyKey,
-      )
+          metadataKey,
+          Object.getPrototypeOf(target),
+          propertyKey,
+        )
       : undefined;
 }
 
