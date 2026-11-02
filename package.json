@@ -13,10 +13,9 @@
   "scripts": {
     "build": "tsc && rollup -c",
     "clean": "rimraf dist",
-    "format": "prettier . --write",
-    "lint:eslint": "eslint src",
-    "lint:prettier": "prettier . --check",
-    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint src",
     "pkg-ok": "pkg-ok",
     "prebuild": "npm run clean",
     "prepare": "npm run build",
@@ -54,7 +53,7 @@
     "eslint-plugin-jest": "^29.0.1",
     "jest": "^30.0.3",
     "pkg-ok": "^4.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "3.9.10",
     "rimraf": "^6.0.1",
     "rollup": "^4.0.0",
     "ts-jest": "^29.0.0",
@@ -83,9 +82,5 @@
       "json",
       "node"
     ]
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all"
   }
 }
