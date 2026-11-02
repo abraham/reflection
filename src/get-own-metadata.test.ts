@@ -46,3 +46,9 @@ test('defined on prototype with property key', () => {
     Reflect.getOwnMetadata(metadataKey, target, propertyKey),
   ).toBeUndefined();
 });
+
+test.each([0, false, '', null, NaN])('defined as %p', (value) => {
+  const target = {};
+  Reflect.defineMetadata(metadataKey, value, target);
+  expect(Reflect.getOwnMetadata(metadataKey, target)).toBe(value);
+});

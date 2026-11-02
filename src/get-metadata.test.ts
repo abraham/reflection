@@ -40,3 +40,17 @@ test('when defined on prototype with a property key', () => {
   Reflect.defineMetadata('key', 'value', prototype, 'name');
   expect(Reflect.getMetadata('key', target, 'name')).toEqual('value');
 });
+
+test.each([0, false, '', null, NaN, undefined])('when value is %p', (value) => {
+  const target = {};
+  Reflect.defineMetadata('key', value, target, 'name');
+  expect(Reflect.getMetadata('key', target, 'name')).toBe(value);
+});
+
+test('when own value is undefined it shadows the prototype', () => {
+  const prototype = {};
+  const target = Object.create(prototype);
+  Reflect.defineMetadata('key', 'value', prototype);
+  Reflect.defineMetadata('key', undefined, target);
+  expect(Reflect.getMetadata('key', target)).toBeUndefined();
+});

@@ -120,20 +120,48 @@ function ordinaryDefineOwnMetadata<MetadataValue>(
   ).set(metadataKey, metadataValue);
 }
 
+function ordinaryHasOwnMetadata(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): boolean {
+  if (target === undefined) {
+    throw new TypeError();
+  }
+  const metadataMap = getMetadataMap(target, propertyKey);
+  return !!metadataMap && metadataMap.has(metadataKey);
+}
+
+function ordinaryHasMetadata(
+  metadataKey: MetadataKey,
+  target: Target,
+  propertyKey?: PropertyKey,
+): boolean {
+  if (ordinaryHasOwnMetadata(metadataKey, target, propertyKey)) {
+    return true;
+  }
+  const parent = Object.getPrototypeOf(target);
+  return (
+    parent !== null && ordinaryHasMetadata(metadataKey, parent, propertyKey)
+  );
+}
+
 function ordinaryGetMetadata<MetadataValue>(
   metadataKey: MetadataKey,
   target: Target,
   propertyKey?: PropertyKey,
 ): MetadataValue | undefined {
-  return ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
-    ? ordinaryGetOwnMetadata<MetadataValue>(metadataKey, target, propertyKey)
-    : Object.getPrototypeOf(target)
-      ? ordinaryGetMetadata(
-          metadataKey,
-          Object.getPrototypeOf(target),
-          propertyKey,
-        )
-      : undefined;
+  if (ordinaryHasOwnMetadata(metadataKey, target, propertyKey)) {
+    return ordinaryGetOwnMetadata<MetadataValue>(
+      metadataKey,
+      target,
+      propertyKey,
+    );
+  }
+  const parent = Object.getPrototypeOf(target);
+  return parent !== null
+    ? ordinaryGetMetadata(metadataKey, parent, propertyKey)
+    : undefined;
 }
 
 export function metadata<MetadataValue>(
@@ -175,7 +203,7 @@ export function hasOwnMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): boolean {
-  return !!ordinaryGetOwnMetadata(metadataKey, target, propertyKey);
+  return ordinaryHasOwnMetadata(metadataKey, target, propertyKey);
 }
 
 export function hasMetadata(
@@ -183,7 +211,7 @@ export function hasMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): boolean {
-  return !!ordinaryGetMetadata(metadataKey, target, propertyKey);
+  return ordinaryHasMetadata(metadataKey, target, propertyKey);
 }
 
 export function defineMetadata<MetadataValue>(
