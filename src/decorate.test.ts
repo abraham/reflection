@@ -107,6 +107,24 @@ test('executes decorators in reverse order for property', () => {
   assert.deepEqual(order, [1, 0]);
 });
 
+test('does not mutate the decorators array', () => {
+  const order: number[] = [];
+  const first = (): void => {
+    order.push(0);
+  };
+  const second = (): void => {
+    order.push(1);
+  };
+  const decorators = [first, second];
+  const target = (): undefined => {
+    return;
+  };
+  Reflect.decorate(decorators, target);
+  Reflect.decorate(decorators, {}, 'name');
+  assert.deepEqual(decorators, [first, second]);
+  assert.deepEqual(order, [1, 0, 1, 0]);
+});
+
 test('executes decorators in reverse order for property with descriptor', () => {
   const order: number[] = [];
   const decorators = [

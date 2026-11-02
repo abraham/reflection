@@ -8,7 +8,10 @@ export type MetadataKey = string | symbol;
 export type PropertyKey = string | symbol;
 export type Target = object | Function;
 
-const Metadata = new WeakMap();
+const Metadata = new WeakMap<
+  Target,
+  Map<PropertyKey | undefined, Map<MetadataKey, unknown>>
+>();
 
 function decorateProperty(
   decorators: MemberDecorator[],
@@ -16,7 +19,7 @@ function decorateProperty(
   propertyKey: PropertyKey,
   descriptor?: PropertyDescriptor,
 ): PropertyDescriptor | undefined {
-  decorators.reverse().forEach((decorator: MemberDecorator) => {
+  [...decorators].reverse().forEach((decorator: MemberDecorator) => {
     descriptor = decorator(target, propertyKey, descriptor) || descriptor;
   });
   return descriptor;
@@ -26,7 +29,7 @@ function decorateConstructor(
   decorators: ClassDecorator[],
   target: Function,
 ): Function {
-  decorators.reverse().forEach((decorator: ClassDecorator) => {
+  [...decorators].reverse().forEach((decorator: ClassDecorator) => {
     const decorated = decorator(target);
     if (decorated) {
       target = decorated;
@@ -71,11 +74,11 @@ export function decorate(
   return;
 }
 
-function getMetadataMap<MetadataValue>(
+function getMetadataMap(
   target: Target,
   propertyKey?: PropertyKey,
-): Map<MetadataKey, MetadataValue> | undefined {
-  return Metadata.get(target) && Metadata.get(target).get(propertyKey);
+): Map<MetadataKey, unknown> | undefined {
+  return Metadata.get(target)?.get(propertyKey);
 }
 
 function ordinaryGetOwnMetadata<MetadataValue>(
@@ -86,27 +89,27 @@ function ordinaryGetOwnMetadata<MetadataValue>(
   if (target === undefined) {
     throw new TypeError();
   }
-  const metadataMap = getMetadataMap<MetadataValue>(target, propertyKey);
-  return metadataMap && metadataMap.get(metadataKey);
+  return getMetadataMap(target, propertyKey)?.get(metadataKey) as
+    MetadataValue | undefined;
 }
 
-function createMetadataMap<MetadataValue>(
+function createMetadataMap(
   target: Target,
   propertyKey?: PropertyKey,
-): Map<MetadataKey, MetadataValue> {
+): Map<MetadataKey, unknown> {
   const targetMetadata =
     Metadata.get(target) ||
-    new Map<PropertyKey | undefined, Map<MetadataKey, MetadataValue>>();
+    new Map<PropertyKey | undefined, Map<MetadataKey, unknown>>();
   Metadata.set(target, targetMetadata);
   const metadataMap =
-    targetMetadata.get(propertyKey) || new Map<MetadataKey, MetadataValue>();
+    targetMetadata.get(propertyKey) || new Map<MetadataKey, unknown>();
   targetMetadata.set(propertyKey, metadataMap);
   return metadataMap;
 }
 
-function ordinaryDefineOwnMetadata<MetadataValue>(
+function ordinaryDefineOwnMetadata(
   metadataKey: MetadataKey,
-  metadataValue: MetadataValue,
+  metadataValue: unknown,
   target: Target,
   propertyKey?: PropertyKey,
 ): void {
@@ -115,8 +118,8 @@ function ordinaryDefineOwnMetadata<MetadataValue>(
   }
 
   (
-    getMetadataMap<MetadataValue>(target, propertyKey) ||
-    createMetadataMap<MetadataValue>(target, propertyKey)
+    getMetadataMap(target, propertyKey) ||
+    createMetadataMap(target, propertyKey)
   ).set(metadataKey, metadataValue);
 }
 
@@ -169,12 +172,7 @@ export function metadata<MetadataValue>(
   metadataValue: MetadataValue,
 ) {
   return function decorator(target: Target, propertyKey?: PropertyKey): void {
-    ordinaryDefineOwnMetadata<MetadataValue>(
-      metadataKey,
-      metadataValue,
-      target,
-      propertyKey,
-    );
+    ordinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
   };
 }
 
@@ -234,15 +232,46 @@ export const Reflection = {
 };
 
 declare global {
+  // Functions, not variables, so these merge with reflect-metadata's declarations.
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Reflect {
-    let decorate: typeof Reflection.decorate;
-    let defineMetadata: typeof Reflection.defineMetadata;
-    let getMetadata: typeof Reflection.getMetadata;
-    let getOwnMetadata: typeof Reflection.getOwnMetadata;
-    let hasOwnMetadata: typeof Reflection.hasOwnMetadata;
-    let hasMetadata: typeof Reflection.hasMetadata;
-    let metadata: typeof Reflection.metadata;
+    function decorate(decorators: ClassDecorator[], target: Function): Function;
+    function decorate(
+      decorators: MemberDecorator[],
+      target: object,
+      propertyKey?: PropertyKey,
+      attributes?: PropertyDescriptor,
+    ): PropertyDescriptor | undefined;
+    function defineMetadata<MetadataValue>(
+      metadataKey: MetadataKey,
+      metadataValue: MetadataValue,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): void;
+    function getMetadata<MetadataValue>(
+      metadataKey: MetadataKey,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): MetadataValue | undefined;
+    function getOwnMetadata<MetadataValue>(
+      metadataKey: MetadataKey,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): MetadataValue | undefined;
+    function hasOwnMetadata(
+      metadataKey: MetadataKey,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): boolean;
+    function hasMetadata(
+      metadataKey: MetadataKey,
+      target: Target,
+      propertyKey?: PropertyKey,
+    ): boolean;
+    function metadata<MetadataValue>(
+      metadataKey: MetadataKey,
+      metadataValue: MetadataValue,
+    ): (target: Target, propertyKey?: PropertyKey) => void;
   }
 }
 

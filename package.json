@@ -11,7 +11,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc && rollup -c",
+    "build": "tsc && rollup -c && cp dist/index.d.ts dist/index.umd.d.cts",
     "clean": "rimraf dist",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
