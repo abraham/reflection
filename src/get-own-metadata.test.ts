@@ -1,4 +1,7 @@
-import './index';
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { inspect } from 'node:util';
+import './index.ts';
 
 const prototype = {};
 const metadataKey = 'key';
@@ -8,33 +11,35 @@ const propertyKey = 'name';
 
 test('invalid target', () => {
   const target: any = undefined;
-  expect(() => Reflect.getOwnMetadata(metadataKey, target)).toThrow(TypeError);
+  assert.throws(() => Reflect.getOwnMetadata(metadataKey, target), TypeError);
 });
 
 test('not defined with target', () => {
-  expect(Reflect.getOwnMetadata(metadataKey, target)).toBeUndefined();
+  assert.equal(Reflect.getOwnMetadata(metadataKey, target), undefined);
 });
 
 test('defined', () => {
   Reflect.defineMetadata(metadataKey, metadataValue, target);
-  expect(Reflect.getOwnMetadata(metadataKey, target)).toEqual(metadataValue);
+  assert.equal(Reflect.getOwnMetadata(metadataKey, target), metadataValue);
 });
 
 test('defined on prototype', () => {
   const target = Object.create(prototype);
   Reflect.defineMetadata(metadataKey, metadataValue, prototype);
-  expect(Reflect.getOwnMetadata(metadataKey, target)).toBeUndefined();
+  assert.equal(Reflect.getOwnMetadata(metadataKey, target), undefined);
 });
 
 test('not defined with property key', () => {
-  expect(
+  assert.equal(
     Reflect.getOwnMetadata(metadataKey, target, propertyKey),
-  ).toBeUndefined();
+    undefined,
+  );
 });
 
 test('defined with property key', () => {
   Reflect.defineMetadata(metadataKey, metadataValue, target, propertyKey);
-  expect(Reflect.getOwnMetadata(metadataKey, target, propertyKey)).toEqual(
+  assert.equal(
+    Reflect.getOwnMetadata(metadataKey, target, propertyKey),
     metadataValue,
   );
 });
@@ -42,13 +47,16 @@ test('defined with property key', () => {
 test('defined on prototype with property key', () => {
   const target = Object.create(prototype);
   Reflect.defineMetadata(metadataKey, metadataValue, prototype, propertyKey);
-  expect(
+  assert.equal(
     Reflect.getOwnMetadata(metadataKey, target, propertyKey),
-  ).toBeUndefined();
+    undefined,
+  );
 });
 
-test.each([0, false, '', null, NaN])('defined as %p', (value) => {
-  const target = {};
-  Reflect.defineMetadata(metadataKey, value, target);
-  expect(Reflect.getOwnMetadata(metadataKey, target)).toBe(value);
-});
+for (const value of [0, false, '', null, NaN]) {
+  test(`defined as ${inspect(value)}`, () => {
+    const target = {};
+    Reflect.defineMetadata(metadataKey, value, target);
+    assert.equal(Reflect.getOwnMetadata(metadataKey, target), value);
+  });
+}

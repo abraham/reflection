@@ -1,4 +1,6 @@
-import './index';
+import assert from 'node:assert/strict';
+import { describe, test } from 'node:test';
+import './index.ts';
 
 [
   ['key', 'key2'],
@@ -10,32 +12,32 @@ import './index';
 
     test('with invalid target', () => {
       const target: any = undefined;
-      expect(() =>
-        Reflect.defineMetadata(metadataKey, metadataValue, target),
-      ).toThrow(TypeError);
+      assert.throws(
+        () => Reflect.defineMetadata(metadataKey, metadataValue, target),
+        TypeError,
+      );
     });
 
     test('with target but no property key', () => {
-      expect(() =>
+      assert.doesNotThrow(() =>
         Reflect.defineMetadata(metadataKey, metadataValue, target),
-      ).not.toThrow();
+      );
     });
 
     test('with target and property key', () => {
       const propertyKey = 'name';
-      expect(() =>
+      assert.doesNotThrow(() =>
         Reflect.defineMetadata(metadataKey, metadataValue, target, propertyKey),
-      ).not.toThrow();
+      );
     });
 
     test('metadata map is reused', () => {
       const metadataValue2 = 'value2';
       Reflect.defineMetadata(metadataKey, metadataValue, target);
       Reflect.defineMetadata(metadataKey2, metadataValue2, target);
-      expect(Reflect.getOwnMetadata(metadataKey, target)).toEqual(
-        metadataValue,
-      );
-      expect(Reflect.getOwnMetadata(metadataKey2, target)).toEqual(
+      assert.equal(Reflect.getOwnMetadata(metadataKey, target), metadataValue);
+      assert.equal(
+        Reflect.getOwnMetadata(metadataKey2, target),
         metadataValue2,
       );
     });

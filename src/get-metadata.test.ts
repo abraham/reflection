@@ -1,56 +1,61 @@
-import './index';
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { inspect } from 'node:util';
+import './index.ts';
 
 test('with invalid target', () => {
   const target: any = undefined;
-  expect(() => Reflect.getMetadata('key', target)).toThrow(TypeError);
+  assert.throws(() => Reflect.getMetadata('key', target), TypeError);
 });
 
 test('when not defined', () => {
   const target = {};
-  expect(Reflect.getMetadata('key', target)).toEqual(undefined);
+  assert.equal(Reflect.getMetadata('key', target), undefined);
 });
 
 test('when defined', () => {
   const target = {};
   Reflect.defineMetadata('key', 'value', target);
-  expect(Reflect.getMetadata('key', target)).toEqual('value');
+  assert.equal(Reflect.getMetadata('key', target), 'value');
 });
 
 test('when defined on prototype', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', 'value', prototype);
-  expect(Reflect.getMetadata('key', target)).toEqual('value');
+  assert.equal(Reflect.getMetadata('key', target), 'value');
 });
 
 test('with key and not defined', () => {
   const target = {};
-  expect(Reflect.getMetadata('key', target, 'name')).toEqual(undefined);
+  assert.equal(Reflect.getMetadata('key', target, 'name'), undefined);
 });
 
 test('with key and defined', () => {
   const target = {};
   Reflect.defineMetadata('key', 'value', target, 'name');
-  expect(Reflect.getMetadata('key', target, 'name')).toEqual('value');
+  assert.equal(Reflect.getMetadata('key', target, 'name'), 'value');
 });
 
 test('when defined on prototype with a property key', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', 'value', prototype, 'name');
-  expect(Reflect.getMetadata('key', target, 'name')).toEqual('value');
+  assert.equal(Reflect.getMetadata('key', target, 'name'), 'value');
 });
 
-test.each([0, false, '', null, NaN, undefined])('when value is %p', (value) => {
-  const target = {};
-  Reflect.defineMetadata('key', value, target, 'name');
-  expect(Reflect.getMetadata('key', target, 'name')).toBe(value);
-});
+for (const value of [0, false, '', null, NaN, undefined]) {
+  test(`when value is ${inspect(value)}`, () => {
+    const target = {};
+    Reflect.defineMetadata('key', value, target, 'name');
+    assert.equal(Reflect.getMetadata('key', target, 'name'), value);
+  });
+}
 
 test('when own value is undefined it shadows the prototype', () => {
   const prototype = {};
   const target = Object.create(prototype);
   Reflect.defineMetadata('key', 'value', prototype);
   Reflect.defineMetadata('key', undefined, target);
-  expect(Reflect.getMetadata('key', target)).toBeUndefined();
+  assert.equal(Reflect.getMetadata('key', target), undefined);
 });

@@ -1,103 +1,85 @@
-import { Reflection } from './index';
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { Reflection } from './index.ts';
 
 test('defineMetadata', () => {
-  expect(Reflect.defineMetadata).toBeDefined();
-  expect(Reflect.defineMetadata).toEqual(Reflection.defineMetadata);
+  assert.equal(Reflect.defineMetadata, Reflection.defineMetadata);
 });
 
 test('getMetadata', () => {
-  expect(Reflect.getMetadata).toBeDefined();
-  expect(Reflect.getMetadata).toEqual(Reflection.getMetadata);
+  assert.equal(Reflect.getMetadata, Reflection.getMetadata);
 });
 
 test('decorate', () => {
-  expect(Reflect.decorate).toBeDefined();
-  expect(Reflect.decorate).toEqual(Reflection.decorate);
+  assert.equal(Reflect.decorate, Reflection.decorate);
 });
 
 test('metadata', () => {
-  expect(Reflect.metadata).toBeDefined();
-  expect(Reflect.metadata).toEqual(Reflection.metadata);
+  assert.equal(Reflect.metadata, Reflection.metadata);
 });
 
 test('hasOwnMetadata', () => {
-  expect(Reflect.hasOwnMetadata).toBeDefined();
-  expect(Reflect.hasOwnMetadata).toEqual(Reflection.hasOwnMetadata);
+  assert.equal(Reflect.hasOwnMetadata, Reflection.hasOwnMetadata);
 });
 
 test('hasMetadata', () => {
-  expect(Reflect.hasMetadata).toBeDefined();
-  expect(Reflect.hasMetadata).toEqual(Reflection.hasMetadata);
+  assert.equal(Reflect.hasMetadata, Reflection.hasMetadata);
 });
 
 test('getOwnMetadata', () => {
-  expect(Reflect.getOwnMetadata).toBeDefined();
-  expect(Reflect.getOwnMetadata).toEqual(Reflection.getOwnMetadata);
+  assert.equal(Reflect.getOwnMetadata, Reflection.getOwnMetadata);
 });
 
 // Test Reflect standard API
 
 test('apply', () => {
-  expect(Reflect.apply).toBeDefined();
-  expect(typeof Reflect.apply).toBe('function');
+  assert.equal(typeof Reflect.apply, 'function');
 });
 
 test('construct', () => {
-  expect(Reflect.construct).toBeDefined();
-  expect(typeof Reflect.construct).toBe('function');
+  assert.equal(typeof Reflect.construct, 'function');
 });
 
 test('defineProperty', () => {
-  expect(Reflect.defineProperty).toBeDefined();
-  expect(typeof Reflect.defineProperty).toBe('function');
+  assert.equal(typeof Reflect.defineProperty, 'function');
 });
 
 test('deleteProperty', () => {
-  expect(Reflect.deleteProperty).toBeDefined();
-  expect(typeof Reflect.deleteProperty).toBe('function');
+  assert.equal(typeof Reflect.deleteProperty, 'function');
 });
 
 test('get', () => {
-  expect(Reflect.get).toBeDefined();
-  expect(typeof Reflect.get).toBe('function');
+  assert.equal(typeof Reflect.get, 'function');
 });
 
 test('getOwnPropertyDescriptor', () => {
-  expect(Reflect.getOwnPropertyDescriptor).toBeDefined();
-  expect(typeof Reflect.getOwnPropertyDescriptor).toBe('function');
+  assert.equal(typeof Reflect.getOwnPropertyDescriptor, 'function');
 });
 
 test('getPrototypeOf', () => {
-  expect(Reflect.getPrototypeOf).toBeDefined();
-  expect(typeof Reflect.getPrototypeOf).toBe('function');
+  assert.equal(typeof Reflect.getPrototypeOf, 'function');
 });
 
 test('has', () => {
-  expect(Reflect.has).toBeDefined();
-  expect(typeof Reflect.has).toBe('function');
+  assert.equal(typeof Reflect.has, 'function');
 });
 
 test('isExtensible', () => {
-  expect(Reflect.isExtensible).toBeDefined();
-  expect(typeof Reflect.isExtensible).toBe('function');
+  assert.equal(typeof Reflect.isExtensible, 'function');
 });
 
 test('ownKeys', () => {
-  expect(Reflect.ownKeys).toBeDefined();
-  expect(typeof Reflect.ownKeys).toBe('function');
+  assert.equal(typeof Reflect.ownKeys, 'function');
 });
 
 test('preventExtensions', () => {
-  expect(Reflect.preventExtensions).toBeDefined();
-  expect(typeof Reflect.preventExtensions).toBe('function');
+  assert.equal(typeof Reflect.preventExtensions, 'function');
 });
 
 test('set', () => {
-  expect(Reflect.set).toBeDefined();
-  expect(typeof Reflect.set).toBe('function');
+  assert.equal(typeof Reflect.set, 'function');
 });
 
 test('setPrototypeOf', () => {
-  expect(Reflect.setPrototypeOf).toBeDefined();
-  expect(typeof Reflect.setPrototypeOf).toBe('function');
+  assert.equal(typeof Reflect.setPrototypeOf, 'function');
 });
