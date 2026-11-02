@@ -13,29 +13,52 @@ const Metadata = new WeakMap<
   Map<PropertyKey | undefined, Map<MetadataKey, unknown>>
 >();
 
+function isObject(value: unknown): value is object {
+  return (
+    (typeof value === 'object' && value !== null) || typeof value === 'function'
+  );
+}
+
+function isPropertyKey(value: unknown): value is PropertyKey {
+  return typeof value === 'string' || typeof value === 'symbol';
+}
+
+function toPropertyKey(value: unknown): PropertyKey {
+  return typeof value === 'symbol' ? value : String(value);
+}
+
 function decorateProperty(
   decorators: MemberDecorator[],
   target: Target,
   propertyKey: PropertyKey,
   descriptor?: PropertyDescriptor,
 ): PropertyDescriptor | undefined {
-  [...decorators].reverse().forEach((decorator: MemberDecorator) => {
-    descriptor = decorator(target, propertyKey, descriptor) || descriptor;
-  });
-  return descriptor;
+  let result = descriptor;
+  for (const decorator of [...decorators].reverse()) {
+    const decorated = decorator.call(null, target, propertyKey, result);
+    if (isObject(decorated)) {
+      result = decorated;
+    } else if (decorated !== undefined) {
+      throw new TypeError();
+    }
+  }
+  return result;
 }
 
 function decorateConstructor(
   decorators: ClassDecorator[],
   target: Function,
 ): Function {
-  [...decorators].reverse().forEach((decorator: ClassDecorator) => {
-    const decorated = decorator(target);
-    if (decorated) {
-      target = decorated;
+  let result = target;
+  for (const decorator of [...decorators].reverse()) {
+    const decorated = decorator.call(null, result);
+    if (typeof decorated === 'function') {
+      result = decorated;
+    } else if (decorated !== undefined) {
+      throw new TypeError();
     }
-  });
-  return target;
+  }
+  return result;
 }
 
 export function decorate(
@@ -54,24 +77,28 @@ export function decorate(
   propertyKey?: PropertyKey,
   attributes?: PropertyDescriptor,
 ): Function | PropertyDescriptor | undefined {
-  if (!Array.isArray(decorators) || decorators.length === 0) {
+  if (
+    !Array.isArray(decorators) ||
+    !isObject(target) ||
+    (attributes !== undefined && !isObject(attributes)) ||
+    !decorators.every(isObject)
+  ) {
     throw new TypeError();
   }
 
-  if (propertyKey !== undefined) {
-    return decorateProperty(
-      decorators as MemberDecorator[],
-      target,
-      propertyKey,
-      attributes,
-    );
-  }
-
-  if (typeof target === 'function') {
+  if (propertyKey === undefined && attributes === undefined) {
+    if (typeof target !== 'function') {
+      throw new TypeError();
+    }
     return decorateConstructor(decorators as ClassDecorator[], target);
   }
 
-  return;
+  return decorateProperty(
+    decorators as MemberDecorator[],
+    target,
+    toPropertyKey(propertyKey),
+    attributes,
+  );
 }
 
 function getMetadataMap(
@@ -86,9 +113,6 @@ function ordinaryGetOwnMetadata<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): MetadataValue | undefined {
-  if (target === undefined) {
-    throw new TypeError();
-  }
   return getMetadataMap(target, propertyKey)?.get(metadataKey) as
     MetadataValue | undefined;
 }
@@ -113,10 +137,6 @@ function ordinaryDefineOwnMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): void {
-  if (propertyKey && !['string', 'symbol'].includes(typeof propertyKey)) {
-    throw new TypeError();
-  }
-
   (
     getMetadataMap(target, propertyKey) ||
     createMetadataMap(target, propertyKey)
@@ -128,9 +148,6 @@ function ordinaryHasOwnMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): boolean {
-  if (target === undefined) {
-    throw new TypeError();
-  }
   const metadataMap = getMetadataMap(target, propertyKey);
   return !!metadataMap && metadataMap.has(metadataKey);
 }
@@ -172,7 +189,7 @@ export function metadata<MetadataValue>(
   metadataValue: MetadataValue,
 ) {
   return function decorator(target: Target, propertyKey?: PropertyKey): void {
-    ordinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
+    defineMetadata(metadataKey, metadataValue, target, propertyKey);
   };
 }
 
@@ -181,6 +198,9 @@ export function getMetadata<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): MetadataValue | undefined {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
   return ordinaryGetMetadata<MetadataValue>(metadataKey, target, propertyKey);
 }
 
@@ -189,6 +209,9 @@ export function getOwnMetadata<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): MetadataValue | undefined {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
   return ordinaryGetOwnMetadata<MetadataValue>(
     metadataKey,
     target,
@@ -201,6 +224,9 @@ export function hasOwnMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): boolean {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
   return ordinaryHasOwnMetadata(metadataKey, target, propertyKey);
 }
 
@@ -209,6 +235,9 @@ export function hasMetadata(
   target: Target,
   propertyKey?: PropertyKey,
 ): boolean {
+  if (!isObject(target)) {
+    throw new TypeError();
+  }
   return ordinaryHasMetadata(metadataKey, target, propertyKey);
 }
 
@@ -218,6 +247,12 @@ export function defineMetadata<MetadataValue>(
   target: Target,
   propertyKey?: PropertyKey,
 ): void {
+  if (
+    !isObject(target) ||
+    (propertyKey !== undefined && !isPropertyKey(propertyKey))
+  ) {
+    throw new TypeError();
+  }
   ordinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
 }
 
